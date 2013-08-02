@@ -26,28 +26,28 @@
   <property name="menuStyles" type="text">
 [
   /* Block Styles */
-  { name : 'Grey Title'		, element : 'h2', styles : { 'color' : '#888' } },
-  { name : 'Grey Sub Title'		, element : 'h3', styles : { 'color' : '#888' } },
-  { name : 'Discreet bloc'		, element : 'p', attributes : { 'class' : 'discreet' } },
+  { name : 'Grey Title',           element : 'h2', styles : { 'color' : '#888' } },
+  { name : 'Grey Sub Title',       element : 'h3', styles : { 'color' : '#888' } },
+  { name : 'Discreet bloc',        element : 'p', attributes : { 'class' : 'discreet' } },
   /* Inline styles */
-  { name : 'Discreet text'		, element : 'span', attributes : { 'class' : 'discreet' } },
-  { name : 'Marker: Yellow'	, element : 'span', styles : { 'background-color' : 'Yellow' } },
-  { name : 'Typewriter'		, element : 'tt' },
-  { name : 'Computer Code'	, element : 'code' },
-  { name : 'Keyboard Phrase'	, element : 'kbd' },
-  { name : 'Sample Text'		, element : 'samp' },
-  { name : 'Variable'			, element : 'var' },
-  { name : 'Deleted Text'		, element : 'del' },
-  { name : 'Inserted Text'	, element : 'ins' },
-  { name : 'Cited Work'		, element : 'cite' },
-  { name : 'Inline Quotation'	, element : 'q' },
-  { name : 'Language: RTL'	, element : 'span', attributes : { 'dir' : 'rtl' } },
-  { name : 'Language: LTR'	, element : 'span', attributes : { 'dir' : 'ltr' } },
+  { name : 'Discreet text',        element : 'span', attributes : { 'class' : 'discreet' } },
+  { name : 'Marker: Yellow',       element : 'span', styles : { 'background-color' : 'Yellow' } },
+  { name : 'Typewriter',           element : 'tt' },
+  { name : 'Computer Code',        element : 'code' },
+  { name : 'Keyboard Phrase',      element : 'kbd' },
+  { name : 'Sample Text',          element : 'samp' },
+  { name : 'Variable',             element : 'var' },
+  { name : 'Deleted Text',         element : 'del' },
+  { name : 'Inserted Text',        element : 'ins' },
+  { name : 'Cited Work',           element : 'cite' },
+  { name : 'Inline Quotation',     element : 'q' },
+  { name : 'Language: RTL',        element : 'span', attributes : { 'dir' : 'rtl' } },
+  { name : 'Language: LTR',        element : 'span', attributes : { 'dir' : 'ltr' } },
   /* Objects styles */
-  { name : 'Image on right'	, element : 'img', attributes : { 'class' : 'image-right' } },
-  { name : 'Image on left'	, element : 'img', attributes : { 'class' : 'image-left' } },
-  { name : 'Image centered'	, element : 'img', attributes : { 'class' : 'image-inline' } },
-	{ name : 'Borderless Table', element : 'table', styles: { 'border-style': 'hidden', 'background-color' : '#E6E6FA' } },
+  { name : 'Image on right',       element : 'img', attributes : { 'class' : 'image-right' } },
+  { name : 'Image on left',        element : 'img', attributes : { 'class' : 'image-left' } },
+  { name : 'Image centered',       element : 'img', attributes : { 'class' : 'image-inline' } },
+  { name : 'Borderless Table',     element : 'table', styles: { 'border-style': 'hidden', 'background-color' : '#E6E6FA' } },
   { name : 'Square Bulleted List', element : 'ul', styles : { 'list-style-type' : 'square' } }
 
 ]
