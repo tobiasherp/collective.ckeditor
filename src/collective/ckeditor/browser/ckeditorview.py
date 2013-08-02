@@ -263,10 +263,10 @@ class CKeditorView(BrowserView):
         remove_plugins = self.cke_properties.getProperty('remove_plugins', [])
         if remove_plugins:
             rp_list = [pname
-                       if pname
                        for pname in [s.strip()
                                      for s in remove_plugins
                                      ]
+                       if pname
                        ]
             if rp_list:
                 params_js_string += '''config.removePlugins = "%s";''' \
