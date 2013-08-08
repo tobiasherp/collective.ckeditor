@@ -71,8 +71,8 @@ launchCKInstances = function (ids_to_launch) {
     jQuery('.ckeditor_plone').each(function(){
         ckid = jQuery(this).attr('id');
         ids_to_launch = ids_to_launch || [];
-	/* we can specify an array of ids for wich CKeditor has to be launched */
-	/* if no ids is provided or if the current id is in the array of given ids, we proceed */
+        /* we can specify an array of ids for wich CKeditor has to be launched */
+        /* if no ids is provided or if the current id is in the array of given ids, we proceed */
         if ((typeof(ids_to_launch[0]) == 'undefined') || (jQuery.inArray(ckid, ids_to_launch) >= 0)) { 
         cke_config_url = jQuery('.cke_config_url', jQuery(this).parent()).val();
         /* Here starts the local js overload of settings by a field widget */
@@ -82,11 +82,11 @@ launchCKInstances = function (ids_to_launch) {
             cke_width = jQuery('.cke_width', jQuery(this).parent()).val();
             cke_height = jQuery('.cke_height', jQuery(this).parent()).val();
             cke_baseHref = jQuery('.cke_baseHref', jQuery(this).parent()).val();
-	    /* Destroy instance if it exists because an existing instance can not be managed twice */
-	    if (typeof CKEDITOR.instances != 'undefined') {
-	        var instance = CKEDITOR.instances[ckid];
+            /* Destroy instance if it exists because an existing instance can not be managed twice */
+            if (typeof CKEDITOR.instances != 'undefined') {
+                var instance = CKEDITOR.instances[ckid];
                 if (instance) { instance.destroy(true); }
-	    };
+            };
             CKEDITOR.replace( ckid,
               {
                 customConfig : cke_config_url,
@@ -101,7 +101,7 @@ launchCKInstances = function (ids_to_launch) {
                 customConfig : cke_config_url
               });
             }
-	};
+        };
     })
 }
 
