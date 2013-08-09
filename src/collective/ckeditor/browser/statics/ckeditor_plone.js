@@ -78,14 +78,9 @@ launchCKInstances = function (ids_to_launch) {
         /* Here starts the local js overload of settings by a field widget */
         /* for now it only works with at rich widget : basehref width and height are the only attributes */
         /* TODO improve it for any possible widget settings with jQuery.each('',jQuery(this).parent()) ... */
-        console.log('this, ...parent:');
-        console.log(this);
-        console.log(jQuery(this).parent());
-        console.log(jQuery(this).parent().val());
         if (jQuery('.cke_iswidget', jQuery(this).parent()).length) {
             cke_width = jQuery('.cke_width', jQuery(this).parent()).val();
             cke_height = jQuery('.cke_height', jQuery(this).parent()).val();
-            console.log('cke_height ist '+cke_height);
             cke_baseHref = jQuery('.cke_baseHref', jQuery(this).parent()).val();
             /* Destroy instance if it exists because an existing instance can not be managed twice */
             if (typeof CKEDITOR.instances != 'undefined') {
@@ -96,7 +91,7 @@ launchCKInstances = function (ids_to_launch) {
               {
                 customConfig : cke_config_url,
                 width : cke_width,
-                height : 400, //cke_height, FIXME: sauberere Loesung ...
+                height : cke_height,
                 baseHref : cke_baseHref
               });
             }
