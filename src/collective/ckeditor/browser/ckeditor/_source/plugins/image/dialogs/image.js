@@ -1,4 +1,4 @@
-﻿/*
+/*
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -15,6 +15,14 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			regexGetSize = /^\s*(\d+)((px)|\%)?\s*$/i,
 			regexGetSizeOrEmpty = /(^\s*(\d+)((px)|\%)?\s*$)|^$/i,
 			pxLengthRegex = /^\d+px$/;
+
+        var handle_button_size_click = function(scaling) {
+            url_=CKEDITOR.dialog.getCurrent().getValueOf('info','txtUrl').toLowerCase();
+            splitted_=url_.split('/');
+            uid=splitted_[splitted_.indexOf('resolveuid')+1];
+            new_url='resolveuid/'+uid+'/'+scaling
+            CKEDITOR.dialog.getCurrent().setValueOf('info','txtUrl',new_url);
+        };
 
 		var onSizeChange = function()
 		{
@@ -69,9 +77,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// by other fields.
 		function commitContent()
 		{
+		    //CUSTOM
+		    //Auskommentiert TAB gibts nicht mehr
 			var args = arguments;
-			var inlineStyleField = this.getContentElement( 'advanced', 'txtdlgGenStyle' );
-			inlineStyleField && inlineStyleField.commit.apply( inlineStyleField, args );
+			//var inlineStyleField = this.getContentElement( 'advanced', 'txtdlgGenStyle' );
+			//inlineStyleField && inlineStyleField.commit.apply( inlineStyleField, args );
 
 			this.foreach( function( widget )
 			{
@@ -270,9 +280,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			previewImageId = numbering( 'previewImage' );
 
 		return {
-			title : editor.lang.image[ dialogType == 'image' ? 'title' : 'titleButton' ],
-			minWidth : 420,
-			minHeight : 360,
+			title : _('Insert image'),
+			minWidth : 800,
+			minHeight : 600,
 			onShow : function()
 			{
 				this.imageElement = false;
@@ -364,36 +374,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				if ( this.imageEditMode )
 				{
 					var imgTagName = this.imageEditMode;
-
-					// Image dialog and Input element.
-					if ( dialogType == 'image' && imgTagName == 'input' && confirm( editor.lang.image.button2Img ) )
-					{
-						// Replace INPUT-> IMG
-						imgTagName = 'img';
-						this.imageElement = editor.document.createElement( 'img' );
-						this.imageElement.setAttribute( 'alt', '' );
-						editor.insertElement( this.imageElement );
-					}
-					// ImageButton dialog and Image element.
-					else if ( dialogType != 'image' && imgTagName == 'img' && confirm( editor.lang.image.img2Button ))
-					{
-						// Replace IMG -> INPUT
-						imgTagName = 'input';
-						this.imageElement = editor.document.createElement( 'input' );
-						this.imageElement.setAttributes(
-							{
-								type : 'image',
-								alt : ''
-							}
-						);
-						editor.insertElement( this.imageElement );
-					}
-					else
-					{
-						// Restore the original element before all commits.
-						this.imageElement = this.cleanImageElement;
-						delete this.cleanImageElement;
-					}
+					this.imageElement = this.cleanImageElement;
+					delete this.cleanImageElement;
 				}
 				else	// Create a new image.
 				{
@@ -486,7 +468,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			contents : [
 				{
 					id : 'info',
-					label : editor.lang.image.infoTab,
+					label : _('Default'),
 					accessKey : 'I',
 					elements :
 					[
@@ -497,7 +479,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 							[
 								{
 									type : 'hbox',
-									widths : [ '280px', '110px' ],
+									widths : [ '400px', '110px' ],
 									align : 'right',
 									children :
 									[
@@ -580,63 +562,68 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 											align : 'center',
 											label : editor.lang.common.browseServer,
 											hidden : true,
-											filebrowser : 'info:txtUrl'
+											filebrowser :
+							                {
+								                action : 'Browse',
+								                target: 'Link:txtUrl',	// Tab-ID:Element-ID
+								                url: editor.config.filebrowserImageBrowseUrl
+							                }
 										}
 									]
-								}
-							]
-						},
-						{
-							id : 'txtAlt',
-							type : 'text',
-							label : editor.lang.image.alt,
-							accessKey : 'T',
-							'default' : '',
-							onChange : function()
-							{
-								updatePreview( this.getDialog() );
-							},
-							setup : function( type, element )
-							{
-								if ( type == IMAGE )
-									this.setValue( element.getAttribute( 'alt' ) );
-							},
-							commit : function( type, element )
-							{
-								if ( type == IMAGE )
+								},
 								{
-									if ( this.getValue() || this.isChanged() )
-										element.setAttribute( 'alt', this.getValue() );
-								}
-								else if ( type == PREVIEW )
-								{
-									element.setAttribute( 'alt', this.getValue() );
-								}
-								else if ( type == CLEANUP )
-								{
-									element.removeAttribute( 'alt' );
-								}
-							}
-						},
-						{
-							type : 'hbox',
-							children :
-							[
-								{
-									id : 'basic',
-									type : 'vbox',
+									type : 'hbox',
+									widths : [ '65%', '15%', '20%'],
+									align : 'left',
+									style : 'margin-top:15px;',
 									children :
 									[
+                                        {
+											type : 'html',
+											id : 'htmlPreview',
+											style : 'width:95%;',
+											html : '<div>' + CKEDITOR.tools.htmlEncode( editor.lang.common.preview ) +'<br>'+
+											'<div id="' + imagePreviewLoaderId + '" class="ImagePreviewLoader" style="display:none"><div class="loading">&nbsp;</div></div>'+
+											'<div class="ImagePreviewBox"><table><tr><td>'+
+											'<a href="javascript:void(0)" target="_blank" onclick="return false;" id="' + previewLinkId + '">'+
+											'<img id="' + previewImageId + '" alt="" /></a>' +
+											( editor.config.image_previewText ||
+											'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. '+
+											'Maecenas feugiat consequat diam. Maecenas metus. Vivamus diam purus, cursus a, commodo non, facilisis vitae, '+
+											'nulla. Aenean dictum lacinia tortor. Nunc iaculis, nibh non iaculis aliquam, orci felis euismod neque, sed ornare massa mauris sed velit. Nulla pretium mi et risus. Fusce mi pede, tempor id, cursus ac, ullamcorper nec, enim. Sed tortor. Curabitur molestie. Duis velit augue, condimentum at, ultrices a, luctus ut, orci. Donec pellentesque egestas eros. Integer cursus, augue in cursus faucibus, eros pede bibendum sem, in tempus tellus justo quis ligula. Etiam eget tortor. Vestibulum rutrum, est ut placerat elementum, lectus nisl aliquam velit, tempor aliquam eros nunc nonummy metus. In eros metus, gravida a, gravida sed, lobortis id, turpis. Ut ultrices, ipsum at venenatis fringilla, sem nulla lacinia tellus, eget aliquet turpis mauris non enim. Nam turpis. Suspendisse lacinia. Curabitur ac tortor ut ipsum egestas elementum. Nunc imperdiet gravida mauris.' ) +
+											'</td></tr></table></div></div>'
+										},
 										{
-											type : 'hbox',
-											widths : [ '50%', '50%' ],
-											children :
-											[
-												{
-													type : 'vbox',
-													padding : 1,
-													children :
-													[
+										    type : 'vbox',
+									        children :
+									        [
+										        {
+                                                    type: 'button',
+                                                    id: '520520',
+                                                    label: '520 x 520',
+                                                    title: '520 x 520',
+                                                    onClick: function() {
+                                                        handle_button_size_click('image_preview');
+                                                    }
+										        },
+										        {
+                                                    type: 'button',
+                                                    id: '240240',
+                                                    label: '240 x 240',
+                                                    title: '240 x 240',
+                                                    onClick: function() {
+                                                        handle_button_size_click('image_mini');
+                                                    }
+										        },
+										        {
+                                                    type: 'button',
+                                                    id: '120120',
+                                                    label: '120 x 120',
+                                                    title: '120 x 120',
+                                                    onClick: function() {
+                                                        handle_button_size_click('image_thumb');
+                                                    }
+										        },
 														{
 															type : 'text',
 															width: '40px',
@@ -687,6 +674,68 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 																}
 															}
 														},
+                                        {
+											id : 'ratioLock',
+											type : 'html',
+											style : 'width:10px;height:20px;',
+											onLoad : function()
+											{
+												// Activate Reset button
+												var	resetButton = CKEDITOR.document.getById( btnResetSizeId ),
+													ratioButton = CKEDITOR.document.getById( btnLockSizesId );
+												if ( resetButton )
+												{
+													resetButton.on( 'click', function( evt )
+														{
+															resetSize( this );
+															evt.data && evt.data.preventDefault();
+														}, this.getDialog() );
+													resetButton.on( 'mouseover', function()
+														{
+															this.addClass( 'cke_btn_over' );
+														}, resetButton );
+													resetButton.on( 'mouseout', function()
+														{
+															this.removeClass( 'cke_btn_over' );
+														}, resetButton );
+												}
+												// Activate (Un)LockRatio button
+												if ( ratioButton )
+												{
+													ratioButton.on( 'click', function(evt)
+														{
+															var locked = switchLockRatio( this ),
+																oImageOriginal = this.originalElement,
+																width = this.getValueOf( 'info', 'txtWidth' );
+
+															if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' && width )
+															{
+																var height = oImageOriginal.$.height / oImageOriginal.$.width * width;
+																if ( !isNaN( height ) )
+																{
+																	this.setValueOf( 'info', 'txtHeight', Math.round( height ) );
+																	updatePreview( this );
+																}
+															}
+															evt.data && evt.data.preventDefault();
+														}, this.getDialog() );
+													ratioButton.on( 'mouseover', function()
+														{
+															this.addClass( 'cke_btn_over' );
+														}, ratioButton );
+													ratioButton.on( 'mouseout', function()
+														{
+															this.removeClass( 'cke_btn_over' );
+														}, ratioButton );
+												}
+											},
+											html : '<div>'+
+												'<table ><tr><td><a href="javascript:void(0)" tabindex="-1" title="' + editor.lang.image.lockRatio +
+												'" class="cke_btn_locked" id="' + btnLockSizesId + '" role="checkbox"><span class="cke_icon"></span><span class="cke_label">' + editor.lang.image.lockRatio + '</span></a></td>' +
+												'<td><a href="javascript:void(0)" tabindex="-1" title="' + editor.lang.image.resetSize +
+												'" class="cke_btn_reset" id="' + btnResetSizeId + '" role="button"><span class="cke_label">' + editor.lang.image.resetSize + '</span></a></td></tr></table>'+
+												'</div>'
+										},
 														{
 															type : 'text',
 															id : 'txtHeight',
@@ -737,653 +786,165 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 																}
 															}
 														}
-													]
-												},
-												{
-													id : 'ratioLock',
-													type : 'html',
-													style : 'margin-top:30px;width:40px;height:40px;',
-													onLoad : function()
-													{
-														// Activate Reset button
-														var	resetButton = CKEDITOR.document.getById( btnResetSizeId ),
-															ratioButton = CKEDITOR.document.getById( btnLockSizesId );
-														if ( resetButton )
-														{
-															resetButton.on( 'click', function( evt )
-																{
-																	resetSize( this );
-																	evt.data && evt.data.preventDefault();
-																}, this.getDialog() );
-															resetButton.on( 'mouseover', function()
-																{
-																	this.addClass( 'cke_btn_over' );
-																}, resetButton );
-															resetButton.on( 'mouseout', function()
-																{
-																	this.removeClass( 'cke_btn_over' );
-																}, resetButton );
-														}
-														// Activate (Un)LockRatio button
-														if ( ratioButton )
-														{
-															ratioButton.on( 'click', function(evt)
-																{
-																	var locked = switchLockRatio( this ),
-																		oImageOriginal = this.originalElement,
-																		width = this.getValueOf( 'info', 'txtWidth' );
-
-																	if ( oImageOriginal.getCustomData( 'isReady' ) == 'true' && width )
-																	{
-																		var height = oImageOriginal.$.height / oImageOriginal.$.width * width;
-																		if ( !isNaN( height ) )
-																		{
-																			this.setValueOf( 'info', 'txtHeight', Math.round( height ) );
-																			updatePreview( this );
-																		}
-																	}
-																	evt.data && evt.data.preventDefault();
-																}, this.getDialog() );
-															ratioButton.on( 'mouseover', function()
-																{
-																	this.addClass( 'cke_btn_over' );
-																}, ratioButton );
-															ratioButton.on( 'mouseout', function()
-																{
-																	this.removeClass( 'cke_btn_over' );
-																}, ratioButton );
-														}
-													},
-													html : '<div>'+
-														'<a href="javascript:void(0)" tabindex="-1" title="' + editor.lang.image.lockRatio +
-														'" class="cke_btn_locked" id="' + btnLockSizesId + '" role="checkbox"><span class="cke_icon"></span><span class="cke_label">' + editor.lang.image.lockRatio + '</span></a>' +
-														'<a href="javascript:void(0)" tabindex="-1" title="' + editor.lang.image.resetSize +
-														'" class="cke_btn_reset" id="' + btnResetSizeId + '" role="button"><span class="cke_label">' + editor.lang.image.resetSize + '</span></a>'+
-														'</div>'
-												}
-											]
+									        ]
 										},
-										{
-											type : 'vbox',
-											padding : 1,
-											children :
-											[
-												{
-													type : 'text',
-													id : 'txtBorder',
-													width: '60px',
-													label : editor.lang.image.border,
-													'default' : '',
-													onKeyUp : function()
+                                        {
+										    type : 'vbox',
+									        height : '250px',
+									        children :
+									        [
+                					            {
+                					                id : 'chkCaption',
+                									type : 'checkbox',
+                									label : _('Show caption'),
+													setup : function( type, element )
 													{
-														updatePreview( this.getDialog() );
+													    if (element.hasClass('image-caption')) {
+													        this.setValue(true);
+													    } else {
+													        this.setValue(false);
+													    }
 													},
-													onChange : function()
+                									commit : function( type, element )
+                        							{
+													    if ( type == IMAGE )
+														{
+														    element.removeClass('image-caption');
+														    if (this.getValue()==true) {
+														        element.addClass('image-caption');
+														    }
+													    }
+                        							}
+                					            },
+                					            {
+                					                id : 'chkLegend',
+                									type : 'checkbox',
+                									label : _('Show legend'),
+													setup : function( type, element )
 													{
-														commitInternally.call( this, 'advanced:txtdlgGenStyle' );
+													    if (element.hasClass('image-legend')) {
+													        this.setValue(true);
+													    } else {
+													        this.setValue(false);
+													    }
 													},
-													validate : CKEDITOR.dialog.validate.integer( editor.lang.image.validateBorder ),
+                									commit : function( type, element )
+                        							{
+													    if ( type == IMAGE )
+														{
+														    element.removeClass('image-legend');
+														    if (this.getValue()==true) {
+														        element.addClass('image-legend');
+														    }
+													    }
+                        							}
+                					            },
+                					            {
+                					                id : 'chkLightbox',
+                									type : 'checkbox',
+                									label : _('No Lightbox'),
+													setup : function( type, element )
+													{
+													    if (element.hasClass('no-lightbox')) {
+													        this.setValue(true);
+													    } else {
+													        this.setValue(false);
+													    }
+													},
+                									commit : function( type, element )
+                        							{
+													    if ( type == IMAGE )
+														{
+														    element.removeClass('no-lightbox');
+														    if (this.getValue()==true) {
+														        element.addClass('no-lightbox');
+														    }
+													    }
+                        							}
+                					            },
+                					            {
+                					                id : 'chkOpenAsPopup',
+                									type : 'checkbox',
+                									label : _('Open as popup'),
+                									title : _('Use this option if source object is a file. The image of the file is displayed in the page the popup is the file detail view.'),
+													setup : function( type, element )
+													{
+													    if (element.hasClass('image-popup')) {
+													        this.setValue(true);
+													    } else {
+													        this.setValue(false);
+													    }
+													},
+                									commit : function( type, element )
+                        							{
+													    if ( type == IMAGE )
+														{
+														    element.removeClass('image-popup');
+														    if (this.getValue()==true) {
+														        element.addClass('image-popup');
+														    }
+													    }
+                        							}
+                					            },
+                                                {
+                                                    type: 'select',
+                                                    id: 'cmbImageAdjustment',
+                                                    label: _('Image adjustment'),
+                                                    items: [[_('Please select'),''],[_('Image on left'),'image-left'],[_('Image on right'),'image-right'],[_('Image on top'),'image-inline']],
+                                                    'default': '',
 													setup : function( type, element )
 													{
 														if ( type == IMAGE )
 														{
-															var value,
-																borderStyle = element.getStyle( 'border-width' );
-															borderStyle = borderStyle && borderStyle.match( /^(\d+px)(?: \1 \1 \1)?$/ );
-															value = borderStyle && parseInt( borderStyle[ 1 ], 10 );
-															isNaN ( parseInt( value, 10 ) ) && ( value = element.getAttribute( 'border' ) );
-															this.setValue( value );
+														    styles_=['image-left','image-right','image-inline'];
+														    for (var i = 0; i <= styles_.length; i++) {
+														        if (jq(element).attr('class').indexOf(styles_[i])!=-1) {
+														            this.setValue(styles_[i]);
+														        }
+														    }
 														}
 													},
-													commit : function( type, element, internalCommit )
-													{
-														var value = parseInt( this.getValue(), 10 );
-														if ( type == IMAGE || type == PREVIEW )
-														{
-															if ( !isNaN( value ) )
-															{
-																element.setStyle( 'border-width', CKEDITOR.tools.cssLength( value ) );
-																element.setStyle( 'border-style', 'solid' );
-															}
-															else if ( !value && this.isChanged() )
-																element.removeStyle( 'border' );
+                                                    onChange: function() {
+                                                        updatePreview( this.getDialog() );
+                                                    },
+                                                    commit : function( type, element )
+                        							{
+                        							    if ( type == IMAGE )
+                        								{
+                            								styles_=['image-left','image-right','image-inline'];
+    													    for (var i = 0; i <= styles_.length; i++) {
+    													        if (jq(element).attr('class')!=undefined) {
+        													        if (jq(element).attr('class').indexOf(styles_[i])!=-1) {
+        													            element.removeClass(styles_[i]);
+        													        }
+    													        }
+    													    }
 
-															if ( !internalCommit && type == IMAGE )
-																element.removeAttribute( 'border' );
-														}
-														else if ( type == CLEANUP )
-														{
-															element.removeAttribute( 'border' );
-															element.removeStyle( 'border-width' );
-															element.removeStyle( 'border-style' );
-															element.removeStyle( 'border-color' );
-														}
-													}
-												},
-												{
-													type : 'text',
-													id : 'txtHSpace',
-													width: '60px',
-													label : editor.lang.image.hSpace,
-													'default' : '',
-													onKeyUp : function()
-													{
-														updatePreview( this.getDialog() );
-													},
-													onChange : function()
-													{
-														commitInternally.call( this, 'advanced:txtdlgGenStyle' );
-													},
-													validate : CKEDITOR.dialog.validate.integer( editor.lang.image.validateHSpace ),
-													setup : function( type, element )
-													{
-														if ( type == IMAGE )
-														{
-															var value,
-																marginLeftPx,
-																marginRightPx,
-																marginLeftStyle = element.getStyle( 'margin-left' ),
-																marginRightStyle = element.getStyle( 'margin-right' );
+                        									if ( this.getValue() || this.isChanged() )
+                        									    element.addClass(this.getValue());
 
-															marginLeftStyle = marginLeftStyle && marginLeftStyle.match( pxLengthRegex );
-															marginRightStyle = marginRightStyle && marginRightStyle.match( pxLengthRegex );
-															marginLeftPx = parseInt( marginLeftStyle, 10 );
-															marginRightPx = parseInt( marginRightStyle, 10 );
-
-															value = ( marginLeftPx == marginRightPx ) && marginLeftPx;
-															isNaN( parseInt( value, 10 ) ) && ( value = element.getAttribute( 'hspace' ) );
-
-															this.setValue( value );
-														}
-													},
-													commit : function( type, element, internalCommit )
-													{
-														var value = parseInt( this.getValue(), 10 );
-														if ( type == IMAGE || type == PREVIEW )
-														{
-															if ( !isNaN( value ) )
-															{
-																element.setStyle( 'margin-left', CKEDITOR.tools.cssLength( value ) );
-																element.setStyle( 'margin-right', CKEDITOR.tools.cssLength( value ) );
-															}
-															else if ( !value && this.isChanged( ) )
-															{
-																element.removeStyle( 'margin-left' );
-																element.removeStyle( 'margin-right' );
-															}
-
-															if ( !internalCommit && type == IMAGE )
-																element.removeAttribute( 'hspace' );
-														}
-														else if ( type == CLEANUP )
-														{
-															element.removeAttribute( 'hspace' );
-															element.removeStyle( 'margin-left' );
-															element.removeStyle( 'margin-right' );
-														}
-													}
-												},
-												{
-													type : 'text',
-													id : 'txtVSpace',
-													width : '60px',
-													label : editor.lang.image.vSpace,
-													'default' : '',
-													onKeyUp : function()
-													{
-														updatePreview( this.getDialog() );
-													},
-													onChange : function()
-													{
-														commitInternally.call( this, 'advanced:txtdlgGenStyle' );
-													},
-													validate : CKEDITOR.dialog.validate.integer( editor.lang.image.validateVSpace ),
-													setup : function( type, element )
-													{
-														if ( type == IMAGE )
-														{
-															var value,
-																marginTopPx,
-																marginBottomPx,
-																marginTopStyle = element.getStyle( 'margin-top' ),
-																marginBottomStyle = element.getStyle( 'margin-bottom' );
-
-															marginTopStyle = marginTopStyle && marginTopStyle.match( pxLengthRegex );
-															marginBottomStyle = marginBottomStyle && marginBottomStyle.match( pxLengthRegex );
-															marginTopPx = parseInt( marginTopStyle, 10 );
-															marginBottomPx = parseInt( marginBottomStyle, 10 );
-
-															value = ( marginTopPx == marginBottomPx ) && marginTopPx;
-															isNaN ( parseInt( value, 10 ) ) && ( value = element.getAttribute( 'vspace' ) );
-															this.setValue( value );
-														}
-													},
-													commit : function( type, element, internalCommit )
-													{
-														var value = parseInt( this.getValue(), 10 );
-														if ( type == IMAGE || type == PREVIEW )
-														{
-															if ( !isNaN( value ) )
-															{
-																element.setStyle( 'margin-top', CKEDITOR.tools.cssLength( value ) );
-																element.setStyle( 'margin-bottom', CKEDITOR.tools.cssLength( value ) );
-															}
-															else if ( !value && this.isChanged( ) )
-															{
-																element.removeStyle( 'margin-top' );
-																element.removeStyle( 'margin-bottom' );
-															}
-
-															if ( !internalCommit && type == IMAGE )
-																element.removeAttribute( 'vspace' );
-														}
-														else if ( type == CLEANUP )
-														{
-															element.removeAttribute( 'vspace' );
-															element.removeStyle( 'margin-top' );
-															element.removeStyle( 'margin-bottom' );
-														}
-													}
-												},
-												{
-													id : 'cmbAlign',
-													type : 'select',
-													widths : [ '35%','65%' ],
-													style : 'width:90px',
-													label : editor.lang.common.align,
-													'default' : '',
-													items :
-													[
-														[ editor.lang.common.notSet , ''],
-														[ editor.lang.common.alignLeft , 'left'],
-														[ editor.lang.common.alignRight , 'right']
-														// Backward compatible with v2 on setup when specified as attribute value,
-														// while these values are no more available as select options.
-														//	[ editor.lang.image.alignAbsBottom , 'absBottom'],
-														//	[ editor.lang.image.alignAbsMiddle , 'absMiddle'],
-														//  [ editor.lang.image.alignBaseline , 'baseline'],
-														//  [ editor.lang.image.alignTextTop , 'text-top'],
-														//  [ editor.lang.image.alignBottom , 'bottom'],
-														//  [ editor.lang.image.alignMiddle , 'middle'],
-														//  [ editor.lang.image.alignTop , 'top']
-													],
-													onChange : function()
-													{
-														updatePreview( this.getDialog() );
-														commitInternally.call( this, 'advanced:txtdlgGenStyle' );
-													},
-													setup : function( type, element )
-													{
-														if ( type == IMAGE )
-														{
-															var value = element.getStyle( 'float' );
-															switch( value )
-															{
-																// Ignore those unrelated values.
-																case 'inherit':
-																case 'none':
-																	value = '';
-															}
-
-															!value && ( value = ( element.getAttribute( 'align' ) || '' ).toLowerCase() );
-															this.setValue( value );
-														}
-													},
-													commit : function( type, element, internalCommit )
-													{
-														var value = this.getValue();
-														if ( type == IMAGE || type == PREVIEW )
-														{
-															if ( value )
-																element.setStyle( 'float', value );
-															else
-																element.removeStyle( 'float' );
-
-															if ( !internalCommit && type == IMAGE )
-															{
-																value = ( element.getAttribute( 'align' ) || '' ).toLowerCase();
-																switch( value )
-																{
-																	// we should remove it only if it matches "left" or "right",
-																	// otherwise leave it intact.
-																	case 'left':
-																	case 'right':
-																		element.removeAttribute( 'align' );
-																}
-															}
-														}
-														else if ( type == CLEANUP )
-															element.removeStyle( 'float' );
-
-													}
-												}
-											]
-										}
+                        								}
+                        								else if ( type == PREVIEW )
+                        								{
+                        									element.addClass(this.getValue());
+                        								}
+                        								else if ( type == CLEANUP )
+                        								{
+                        									element.removeClass(this.getValue());
+                        								}
+                        								if (jq(element).attr('class')!=undefined) {
+                        								    if (jq(element).attr('class').indexOf('position-')==-1) {
+                        								        element.addClass('position-7');
+                        								    }
+                        								}
+                        							}
+                                                }
+									        ]
+                                        },
 									]
 								},
-								{
-									type : 'vbox',
-									height : '250px',
-									children :
-									[
-										{
-											type : 'html',
-											id : 'htmlPreview',
-											style : 'width:95%;',
-											html : '<div>' + CKEDITOR.tools.htmlEncode( editor.lang.common.preview ) +'<br>'+
-											'<div id="' + imagePreviewLoaderId + '" class="ImagePreviewLoader" style="display:none"><div class="loading">&nbsp;</div></div>'+
-											'<div class="ImagePreviewBox"><table><tr><td>'+
-											'<a href="javascript:void(0)" target="_blank" onclick="return false;" id="' + previewLinkId + '">'+
-											'<img id="' + previewImageId + '" alt="" /></a>' +
-											( editor.config.image_previewText ||
-											'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. '+
-											'Maecenas feugiat consequat diam. Maecenas metus. Vivamus diam purus, cursus a, commodo non, facilisis vitae, '+
-											'nulla. Aenean dictum lacinia tortor. Nunc iaculis, nibh non iaculis aliquam, orci felis euismod neque, sed ornare massa mauris sed velit. Nulla pretium mi et risus. Fusce mi pede, tempor id, cursus ac, ullamcorper nec, enim. Sed tortor. Curabitur molestie. Duis velit augue, condimentum at, ultrices a, luctus ut, orci. Donec pellentesque egestas eros. Integer cursus, augue in cursus faucibus, eros pede bibendum sem, in tempus tellus justo quis ligula. Etiam eget tortor. Vestibulum rutrum, est ut placerat elementum, lectus nisl aliquam velit, tempor aliquam eros nunc nonummy metus. In eros metus, gravida a, gravida sed, lobortis id, turpis. Ut ultrices, ipsum at venenatis fringilla, sem nulla lacinia tellus, eget aliquet turpis mauris non enim. Nam turpis. Suspendisse lacinia. Curabitur ac tortor ut ipsum egestas elementum. Nunc imperdiet gravida mauris.' ) +
-											'</td></tr></table></div></div>'
-										}
-									]
-								}
-							]
-						}
-					]
-				},
-				{
-					id : 'Link',
-					label : editor.lang.link.title,
-					padding : 0,
-					elements :
-					[
-						{
-							id : 'txtUrl',
-							type : 'text',
-							label : editor.lang.common.url,
-							style : 'width: 100%',
-							'default' : '',
-							setup : function( type, element )
-							{
-								if ( type == LINK )
-								{
-									var href = element.data( 'cke-saved-href' );
-									if ( !href )
-										href = element.getAttribute( 'href' );
-									this.setValue( href );
-								}
-							},
-							commit : function( type, element )
-							{
-								if ( type == LINK )
-								{
-									if ( this.getValue() || this.isChanged() )
-									{
-										var url = decodeURI( this.getValue() );
-										element.data( 'cke-saved-href', url );
-										element.setAttribute( 'href', url );
-
-										if ( this.getValue() || !editor.config.image_removeLinkByEmptyURL )
-											this.getDialog().addLink = true;
-									}
-								}
-							}
-						},
-						{
-							type : 'button',
-							id : 'browse',
-							filebrowser :
-							{
-								action : 'Browse',
-								target: 'Link:txtUrl',
-								url: editor.config.filebrowserImageBrowseLinkUrl
-							},
-							style : 'float:right',
-							hidden : true,
-							label : editor.lang.common.browseServer
-						},
-						{
-							id : 'cmbTarget',
-							type : 'select',
-							label : editor.lang.common.target,
-							'default' : '',
-							items :
-							[
-								[ editor.lang.common.notSet , ''],
-								[ editor.lang.common.targetNew , '_blank'],
-								[ editor.lang.common.targetTop , '_top'],
-								[ editor.lang.common.targetSelf , '_self'],
-								[ editor.lang.common.targetParent , '_parent']
-							],
-							setup : function( type, element )
-							{
-								if ( type == LINK )
-									this.setValue( element.getAttribute( 'target' ) || '' );
-							},
-							commit : function( type, element )
-							{
-								if ( type == LINK )
-								{
-									if ( this.getValue() || this.isChanged() )
-										element.setAttribute( 'target', this.getValue() );
-								}
-							}
-						}
-					]
-				},
-				{
-					id : 'Upload',
-					hidden : true,
-					filebrowser : 'uploadButton',
-					label : editor.lang.image.upload,
-					elements :
-					[
-						{
-							type : 'file',
-							id : 'upload',
-							label : editor.lang.image.btnUpload,
-							style: 'height:40px',
-							size : 38
-						},
-						{
-							type : 'fileButton',
-							id : 'uploadButton',
-							filebrowser : 'info:txtUrl',
-							label : editor.lang.image.btnUpload,
-							'for' : [ 'Upload', 'upload' ]
-						}
-					]
-				},
-				{
-					id : 'advanced',
-					label : editor.lang.common.advancedTab,
-					elements :
-					[
-						{
-							type : 'hbox',
-							widths : [ '50%', '25%', '25%' ],
-							children :
-							[
-								{
-									type : 'text',
-									id : 'linkId',
-									label : editor.lang.common.id,
-									setup : function( type, element )
-									{
-										if ( type == IMAGE )
-											this.setValue( element.getAttribute( 'id' ) );
-									},
-									commit : function( type, element )
-									{
-										if ( type == IMAGE )
-										{
-											if ( this.getValue() || this.isChanged() )
-												element.setAttribute( 'id', this.getValue() );
-										}
-									}
-								},
-								{
-									id : 'cmbLangDir',
-									type : 'select',
-									style : 'width : 100px;',
-									label : editor.lang.common.langDir,
-									'default' : '',
-									items :
-									[
-										[ editor.lang.common.notSet, '' ],
-										[ editor.lang.common.langDirLtr, 'ltr' ],
-										[ editor.lang.common.langDirRtl, 'rtl' ]
-									],
-									setup : function( type, element )
-									{
-										if ( type == IMAGE )
-											this.setValue( element.getAttribute( 'dir' ) );
-									},
-									commit : function( type, element )
-									{
-										if ( type == IMAGE )
-										{
-											if ( this.getValue() || this.isChanged() )
-												element.setAttribute( 'dir', this.getValue() );
-										}
-									}
-								},
-								{
-									type : 'text',
-									id : 'txtLangCode',
-									label : editor.lang.common.langCode,
-									'default' : '',
-									setup : function( type, element )
-									{
-										if ( type == IMAGE )
-											this.setValue( element.getAttribute( 'lang' ) );
-									},
-									commit : function( type, element )
-									{
-										if ( type == IMAGE )
-										{
-											if ( this.getValue() || this.isChanged() )
-												element.setAttribute( 'lang', this.getValue() );
-										}
-									}
-								}
 							]
 						},
-						{
-							type : 'text',
-							id : 'txtGenLongDescr',
-							label : editor.lang.common.longDescr,
-							setup : function( type, element )
-							{
-								if ( type == IMAGE )
-									this.setValue( element.getAttribute( 'longDesc' ) );
-							},
-							commit : function( type, element )
-							{
-								if ( type == IMAGE )
-								{
-									if ( this.getValue() || this.isChanged() )
-										element.setAttribute( 'longDesc', this.getValue() );
-								}
-							}
-						},
-						{
-							type : 'hbox',
-							widths : [ '50%', '50%' ],
-							children :
-							[
-								{
-									type : 'text',
-									id : 'txtGenClass',
-									label : editor.lang.common.cssClass,
-									'default' : '',
-									setup : function( type, element )
-									{
-										if ( type == IMAGE )
-											this.setValue( element.getAttribute( 'class' ) );
-									},
-									commit : function( type, element )
-									{
-										if ( type == IMAGE )
-										{
-											if ( this.getValue() || this.isChanged() )
-												element.setAttribute( 'class', this.getValue() );
-										}
-									}
-								},
-								{
-									type : 'text',
-									id : 'txtGenTitle',
-									label : editor.lang.common.advisoryTitle,
-									'default' : '',
-									onChange : function()
-									{
-										updatePreview( this.getDialog() );
-									},
-									setup : function( type, element )
-									{
-										if ( type == IMAGE )
-											this.setValue( element.getAttribute( 'title' ) );
-									},
-									commit : function( type, element )
-									{
-										if ( type == IMAGE )
-										{
-											if ( this.getValue() || this.isChanged() )
-												element.setAttribute( 'title', this.getValue() );
-										}
-										else if ( type == PREVIEW )
-										{
-											element.setAttribute( 'title', this.getValue() );
-										}
-										else if ( type == CLEANUP )
-										{
-											element.removeAttribute( 'title' );
-										}
-									}
-								}
-							]
-						},
-						{
-							type : 'text',
-							id : 'txtdlgGenStyle',
-							label : editor.lang.common.cssStyle,
-							validate : CKEDITOR.dialog.validate.inlineStyle( editor.lang.common.invalidInlineStyle ),
-							'default' : '',
-							setup : function( type, element )
-							{
-								if ( type == IMAGE )
-								{
-									var genStyle = element.getAttribute( 'style' );
-									if ( !genStyle && element.$.style.cssText )
-										genStyle = element.$.style.cssText;
-									this.setValue( genStyle );
-
-									var height = element.$.style.height,
-										width = element.$.style.width,
-										aMatchH  = ( height ? height : '' ).match( regexGetSize ),
-										aMatchW  = ( width ? width : '').match( regexGetSize );
-
-									this.attributesInStyle =
-									{
-										height : !!aMatchH,
-										width : !!aMatchW
-									};
-								}
-							},
-							onChange : function ()
-							{
-								commitInternally.call( this,
-									[ 'info:cmbFloat', 'info:cmbAlign',
-									  'info:txtVSpace', 'info:txtHSpace',
-									  'info:txtBorder',
-									  'info:txtWidth', 'info:txtHeight' ] );
-								updatePreview( this );
-							},
-							commit : function( type, element )
-							{
-								if ( type == IMAGE && ( this.getValue() || this.isChanged() ) )
-								{
-									element.setAttribute( 'style', this.getValue() );
-								}
-							}
-						}
 					]
 				}
 			]
