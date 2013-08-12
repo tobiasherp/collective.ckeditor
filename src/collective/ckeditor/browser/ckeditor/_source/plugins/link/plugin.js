@@ -1,4 +1,4 @@
-﻿/*	vim: tabstop=4 shiftwidth=4 smartindent noexpandtab
+﻿/*
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
@@ -8,16 +8,15 @@ CKEDITOR.plugins.add( 'link',
 	requires : [ 'fakeobjects', 'dialog' ],
 	init : function( editor )
 	{
-		var pluginName = 'link';
 		// Add the link and unlink buttons.
-		editor.addCommand( pluginName, new CKEDITOR.dialogCommand( pluginName ) );
+		editor.addCommand( 'link', new CKEDITOR.dialogCommand( 'link' ) );
 		editor.addCommand( 'anchor', new CKEDITOR.dialogCommand( 'anchor' ) );
 		editor.addCommand( 'unlink', new CKEDITOR.unlinkCommand() );
 		editor.addCommand( 'removeAnchor', new CKEDITOR.removeAnchorCommand() );
 		editor.ui.addButton( 'Link',
 			{
 				label : editor.lang.link.toolbar,
-				command : pluginName
+				command : 'link'
 			} );
 		editor.ui.addButton( 'Unlink',
 			{
@@ -29,7 +28,7 @@ CKEDITOR.plugins.add( 'link',
 				label : editor.lang.anchor.toolbar,
 				command : 'anchor'
 			} );
-		CKEDITOR.dialog.add( pluginName, this.path + 'dialogs/link.js' );
+		CKEDITOR.dialog.add( 'link', this.path + 'dialogs/link.js' );
 		CKEDITOR.dialog.add( 'anchor', this.path + 'dialogs/anchor.js' );
 
 		// Add the CSS styles for anchor placeholders.
@@ -94,12 +93,7 @@ CKEDITOR.plugins.add( 'link',
 				{
 					if ( element.is( 'a' ) )
 					{
-						evt.data.dialog = ( element.getAttribute( 'name' )
-						                    && ( !element.getAttribute( 'href' )
-						                         || !element.getChildCount()
-						                        ) )
-						                   ? 'anchor'
-						                   : 'link';
+						evt.data.dialog = ( element.getAttribute( 'name' ) && ( !element.getAttribute( 'href' ) || !element.getChildCount() ) ) ? 'anchor' : 'link';
 						editor.getSelection().selectElement( element );
 					}
 					else if ( CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, element ) )
@@ -110,7 +104,6 @@ CKEDITOR.plugins.add( 'link',
 		// If the "menu" plugin is loaded, register the menu items.
 		if ( editor.addMenuItems )
 		{
-			// editor.removeMenuItem('link');
 			editor.addMenuItems(
 				{
 					anchor :
@@ -354,13 +347,7 @@ CKEDITOR.removeAnchorCommand.prototype =
 		var sel = editor.getSelection(),
 			bms = sel.createBookmarks(),
 			anchor;
-		if ( sel
-			 && ( anchor = sel.getSelectedElement() )
-			 && ( CKEDITOR.plugins.link.fakeAnchor
-			      && !anchor.getChildCount()
-			      ? CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, anchor )
-			      : anchor.is( 'a' )
-			     ) )
+		if ( sel && ( anchor = sel.getSelectedElement() ) && ( CKEDITOR.plugins.link.fakeAnchor && !anchor.getChildCount() ? CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, anchor ) : anchor.is( 'a' ) ) )
 			anchor.remove( 1 );
 		else
 		{
