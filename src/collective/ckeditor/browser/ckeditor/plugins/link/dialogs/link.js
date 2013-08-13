@@ -1613,6 +1613,34 @@ CKEDITOR.dialog.add( 'link', function( editor )
 	};	// return { ... }
 });
 
+function switchInternalSource(linktype, datatype) {
+	var dialog = CKEDITOR.dialog.getCurrent();
+	var browsectl = dialog.getContentElement('info', 'browse');
+	var url = '/@@unitraccckfinder?media=non-image';
+	var typeview = 'non-image';
+	var utype;
+	if (datatype) {
+		if (datatype == 'image') {
+			typeview = datatype;
+		}
+		if (datatype == 'page') {
+			utype = 'Document'
+		} else {
+			utype = 'Unitracc'+capitaliseFirstLetter(datatype);
+		}
+		url += '&typeview='+typeview+'&type='+utype;
+	} else {
+		url += '&typeview=file';
+	}
+	// "disabled" hat evtl. unerw. Nebeneffekte:
+	// unitraccLinkDetailsAvailable(linktype=='link');
+	browsectl.filebrowser.url = url;
+}
+
+function capitaliseFirstLetter(s) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
 /**
  * The e-mail address anti-spam protection option. The protection will be
  * applied when creating or modifying e-mail links through the editor interface.<br>
