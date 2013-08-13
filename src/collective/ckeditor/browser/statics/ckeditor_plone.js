@@ -2,8 +2,9 @@
    Must be i18nized */
 
 
-if ( typeof console != 'undefined' )
+if ( typeof console != 'undefined' ) {
 	console.log();
+}
 
 
 if ( window.CKEDITOR )
@@ -30,10 +31,11 @@ if ( window.CKEDITOR )
 			{
 				if ( browsers[ key ] )
 				{
-					if ( env[key] )
+					if ( env[key] ) {
 						html += ' CKEditor is compatible with ' + browsers[ key ] + ' or higher.';
-					else
+					} else {
 						alsoBrowsers += browsers[ key ] + '+, ';
+					}
 				}
 			}
 
@@ -50,15 +52,18 @@ if ( window.CKEDITOR )
 		{
 			// Show a friendly compatibility message as soon as the page is loaded,
 			// for those browsers that are not compatible with CKEditor.
-			if ( !CKEDITOR.env.isCompatible )
+			if ( !CKEDITOR.env.isCompatible ) {
 				showCompatibilityMsg();
+			}
 		};
 
 		// Register the onload listener.
-		if ( window.addEventListener )
+		if ( window.addEventListener ) {
 			window.addEventListener( 'load', onload, false );
-		else if ( window.attachEvent )
+		}
+		else if ( window.attachEvent ) {
 			window.attachEvent( 'onload', onload );
+		}
 	})();
 }
 

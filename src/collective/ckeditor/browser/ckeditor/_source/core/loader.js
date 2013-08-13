@@ -105,7 +105,7 @@ if ( !CKEDITOR.loader )
 			return path;
 		})();
 
-		var timestamp = 'D03G5XL';
+		var timestamp = 'Ook0815-B-browser';
 
 		var getUrl = function( resource )
 		{
