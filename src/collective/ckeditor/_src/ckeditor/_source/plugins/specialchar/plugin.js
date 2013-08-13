@@ -111,3 +111,25 @@ CKEDITOR.config.specialChars =
 	   	"&bull;",
 		"&rarr;", "&rArr;", "&hArr;", "&diams;", "&asymp;"
 	];
+CKEDITOR.config.extraSpecialChars = [
+		"&prod;", "&sum;", "&minus;", "&lowast;", "&radic;", "&prop;",
+		"&infin;", "&ang;", "&and;", "&or;", "&cap;", "&cup;", "&int;",
+		"&there4;", "&sim;", "&cong;", "&asymp;", "&ne;", "&equiv;", "&le;",
+		"&ge;", "&sub;", "&sup;", "&nsub;", "&sube;", "&supe;", "&oplus;",
+		"&otimes;", "&perp;", "&sdot;", "&permil;",
+		// greek letters:
+		"&Alpha;", "&Beta;", "&Gamma;", "&Delta;", "&Epsilon;", "&Zeta;",
+		"&Eta;", "&Theta;", "&Iota;", "&Kappa;", "&Lambda;", "&Mu;", "&Nu;",
+		"&Xi;", "&Omicron;", "&Pi;", "&Rho;", "&Sigma;", "&Tau;", "&Upsilon;",
+		"&Phi;", "&Chi;", "&Psi;", "&Omega;",
+		"&alpha;", "&beta;", "&gamma;", "&delta;", "&epsilon;", "&zeta;",
+		"&eta;", "&theta;", "&iota;", "&kappa;", "&lambda;", "&mu;", "&nu;",
+		"&xi;", "&omicron;", "&pi;", "&rho;", "&sigmaf;", "&sigma;", "&tau;",
+		"&upsilon;", "&phi;", "&chi;", "&psi;", "&omega;",
+		// other:
+		"&thetasym;",
+		"&upsih;",
+	   	"&piv;", "&frasl;",
+		"&image;", "&real;", "&alefsym;", "&forall;", "&part;", "&exist;",
+		"&empty;", "&nabla;", "&isin;", "&notin;", "&ni;"
+	];
