@@ -105,16 +105,16 @@ if ( !CKEDITOR.loader )
 			return path;
 		})();
 
-		//var timestamp = 'D03G5XL';
+		var timestamp = 'Ook0815-B-browser';
 
 		var getUrl = function( resource )
 		{
 			if ( CKEDITOR && CKEDITOR.getUrl )
 				return CKEDITOR.getUrl( resource );
 
-			return basePath + resource; /*+
+			return basePath + resource +
 				( resource.indexOf( '?' ) >= 0 ? '&' : '?' ) +
-				't=' + timestamp;*/
+				't=' + timestamp;
 		};
 
 		var pendingLoad = [];
