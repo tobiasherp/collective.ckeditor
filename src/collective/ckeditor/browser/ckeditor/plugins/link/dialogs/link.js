@@ -1642,6 +1642,36 @@ function capitaliseFirstLetter(s) {
 }
 
 /**
+ * haystack - eine Zeichenkette
+ * needle - eine mutmasslich kuerzere Zeichenkette, mit der <haystack>
+ *          evtl. beginnt, oder ein Array solcher Praefixe
+ */
+function stringStartsWith(haystack, needle) {
+	if (jq.isArray(needle)) {
+		for (var n=0; n < needle.length; n++)
+			if (stringStartsWith(haystack, needle[n]))
+				return true;
+		return false;
+	}
+	if (needle.length > haystack.length)
+		return false;
+	return haystack.substring(0, needle.length) == needle;
+}
+
+
+/**
+ * enable -- Wahrheitswert
+ *           Wenn false, werden die beiden Checkboxen ausgegraut
+ */
+function unitraccLinkDetailsAvailable(enable) {
+	var cbs = [document.getElementById('isrc-unitracc-breaket'),
+		       document.getElementById('isrc-content-only')];
+	for (var i=0; i<cbs.length; i++) {
+		cbs[i].disabled = !enable;
+	}
+}
+
+/**
  * The e-mail address anti-spam protection option. The protection will be
  * applied when creating or modifying e-mail links through the editor interface.<br>
  * Two methods of protection can be choosed:
