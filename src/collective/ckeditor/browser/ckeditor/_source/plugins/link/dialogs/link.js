@@ -45,7 +45,6 @@ CKEDITOR.dialog.add( 'link', function( editor )
 	{
 		var dialog = this.getDialog(),
 			partIds = [ 'urlOptions',
-			            'internalOptions',
 			            'anchorOptions', 'emailOptions' ],
 			typeValue = this.getValue(),
 			uploadTab = dialog.definition.getContents( 'upload' ),
@@ -58,10 +57,6 @@ CKEDITOR.dialog.add( 'link', function( editor )
 				dialog.showPage( 'target' );
 			if ( !uploadInitiallyHidden )
 				dialog.showPage( 'upload' );
-		} else if (typeValue == 'internal') {
-			dialog.hidePage( 'target' );
-			if ( !uploadInitiallyHidden )
-				dialog.hidePage( 'upload' );
 		} else {
 			dialog.hidePage( 'target' );
 			if ( !uploadInitiallyHidden )
