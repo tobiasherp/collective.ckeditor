@@ -14,8 +14,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 			targetName = dialog.getContentElement( 'target', 'linkTargetName' ),
 			value = this.getValue();
 
-		if ( !popupFeatures || !targetName )
+		if ( !popupFeatures || !targetName ) {
 			return;
+		}
 
 		popupFeatures = popupFeatures.getElement();
 		popupFeatures.hide();
@@ -53,27 +54,32 @@ CKEDITOR.dialog.add( 'link', function( editor )
 		dialog.hidePage('advanced');
 		if ( typeValue == 'url' )
 		{
-			if ( editor.config.linkShowTargetTab )
+			if ( editor.config.linkShowTargetTab ) {
 				dialog.showPage( 'target' );
-			if ( !uploadInitiallyHidden )
+			}
+			if ( !uploadInitiallyHidden ) {
 				dialog.showPage( 'upload' );
+			}
 		} else {
 			dialog.hidePage( 'target' );
-			if ( !uploadInitiallyHidden )
+			if ( !uploadInitiallyHidden ) {
 				dialog.hidePage( 'upload' );
+			}
 		}
 
 		for ( var i = 0 ; i < partIds.length ; i++ )
 		{
 			var element = dialog.getContentElement( 'info', partIds[i] );
-			if ( !element )
+			if ( !element ) {
 				continue;
+			}
 
 			element = element.getElement().getParent().getParent();
-			if ( partIds[i] == typeValue + 'Options' ) // e.g. urlOptions
+			if ( partIds[i] == typeValue + 'Options' ) { // e.g. urlOptions
 				element.show();
-			else
+			} else {
 				element.hide();
+			}
 		}
 
 		dialog.layout();
@@ -207,10 +213,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 			else
 			{
 				var targetMatch = target.match( selectableTargets );
-				if ( targetMatch )
+				if ( targetMatch ) {
 					retval.target.type = retval.target.name = target;
-				else
-				{
+				} else {
 					retval.target.type = 'frame';
 					retval.target.name = target;
 				}
@@ -272,8 +277,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 			for ( i = 0, count = links.count(); i < count; i++ )
 			{
 				item = links.getItem( i );
-				if ( item.data( 'cke-saved-name' ) || item.hasAttribute( 'name' ) )
+				if ( item.data( 'cke-saved-name' ) || item.hasAttribute( 'name' ) ) {
 					anchors.push( { name : item.data( 'cke-saved-name' ) || item.getAttribute( 'name' ), id : item.getAttribute( 'id' ) } );
+				}
 			}
 		}
 		else
@@ -291,8 +297,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 			var imgs = editor.document.getElementsByTag( 'img' );
 			for ( i = 0, count = imgs.count(); i < count; i++ )
 			{
-				if ( ( item = CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, imgs.getItem( i ) ) ) )
+				if ( ( item = CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, imgs.getItem( i ) ) ) ) {
 					anchors.push( { name : item.getAttribute( 'name' ), id : item.getAttribute( 'id' ) } );
+				}
 			}
 		}
 
@@ -304,9 +311,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 	var setupParams = function( page, data )
 	{
 		if ( data[page] ) {
-			if (this.setValue)
+			if (this.setValue) {
 				this.setValue( data[page][this.id] || '' );
-			else {
+			} else {
 				console.log('setupParams():');
 				console.log('  page, data[page], this:');
 				console.log(page);
@@ -330,8 +337,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 
 	var commitParams = function( page, data )
 	{
-		if ( !data[page] )
+		if ( !data[page] ) {
 			data[page] = {};
+		}
 
 		data[page][this.id] = this.getValue() || '';
 	};
@@ -448,8 +456,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 						onLoad : linkTypeChanged,
 						setup : function( data )
 						{
-							if ( data.type )
+							if ( data.type ) {
 								this.setValue( data.type );
+							}
 						},
 						commit : function( data )
 						{
@@ -482,13 +491,15 @@ CKEDITOR.dialog.add( 'link', function( editor )
 										],
 										setup : function( data )
 										{
-											if ( data.url )
+											if ( data.url ) {
 												this.setValue( data.url.protocol || '' );
+											}
 										},
 										commit : function( data )
 										{
-											if ( !data.url )
+											if ( !data.url ) {
 												data.url = {};
+											}
 
 											data.url.protocol = this.getValue();
 										}
@@ -523,24 +534,27 @@ CKEDITOR.dialog.add( 'link', function( editor )
 										},
 										onChange : function()
 										{
-											if ( this.allowOnChange )		// Dont't call on dialog load.
+											if ( this.allowOnChange ) {		// Dont't call on dialog load.
 												this.onKeyUp();
+											}
 										},
 										validate : function()
 										{
 											var dialog = this.getDialog();
 
 											if ( dialog.getContentElement( 'info', 'linkType' ) &&
-													dialog.getValueOf( 'info', 'linkType' ) != 'url' )
+													dialog.getValueOf( 'info', 'linkType' ) != 'url' ) {
 												return true;
+											}
 
 											if ( (/javascript\:/).test( this.getValue() ) ) {
 												alert( commonLang.invalidValue );
 												return false;
 											}
 
-											if ( this.getDialog().fakeObj )	// Edit Anchor.
+											if ( this.getDialog().fakeObj )	{ // Edit Anchor.
 												return true;
+											}
 
 											var func = CKEDITOR.dialog.validate.notEmpty( linkLang.noUrl );
 											return func.apply( this );
@@ -548,8 +562,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 										setup : function( data )
 										{
 											this.allowOnChange = false;
-											if ( data.url )
+											if ( data.url ) {
 												this.setValue( data.url.url );
+											}
 											this.allowOnChange = true;
 
 										},
@@ -559,8 +574,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 											// to carry all the operations #4724
 											this.onChange();
 
-											if ( !data.url )
+											if ( !data.url ) {
 												data.url = {};
+											}
 
 											data.url.url = this.getValue();
 											this.allowOnChange = false;
@@ -704,10 +720,11 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								label : linkLang.selectAnchor,
 								setup : function( data )
 								{
-									if ( data.anchors.length > 0 )
+									if ( data.anchors.length > 0 ) {
 										this.getElement().show();
-									else
+									} else {
 										this.getElement().hide();
+									}
 								},
 								children :
 								[
@@ -732,12 +749,14 @@ CKEDITOR.dialog.add( 'link', function( editor )
 													this.add( '' );
 													for ( var i = 0 ; i < data.anchors.length ; i++ )
 													{
-														if ( data.anchors[i].name )
+														if ( data.anchors[i].name ) {
 															this.add( data.anchors[i].name );
+														}
 													}
 
-													if ( data.anchor )
+													if ( data.anchor ) {
 														this.setValue( data.anchor.name );
+													}
 
 													var linkType = this.getDialog().getContentElement( 'info', 'linkType' );
 													if ( linkType && linkType.getValue() == 'email' )
@@ -745,8 +764,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 												},
 												commit : function( data )
 												{
-													if ( !data.anchor )
+													if ( !data.anchor ) {
 														data.anchor = {};
+													}
 
 													data.anchor.name = this.getValue();
 												}
@@ -767,17 +787,20 @@ CKEDITOR.dialog.add( 'link', function( editor )
 													this.add( '' );
 													for ( var i = 0 ; i < data.anchors.length ; i++ )
 													{
-														if ( data.anchors[i].id )
+														if ( data.anchors[i].id ) {
 															this.add( data.anchors[i].id );
+														}
 													}
 
-													if ( data.anchor )
+													if ( data.anchor ) {
 														this.setValue( data.anchor.id );
+													}
 												},
 												commit : function( data )
 												{
-													if ( !data.anchor )
+													if ( !data.anchor ) {
 														data.anchor = {};
+													}
 
 													data.anchor.id = this.getValue();
 												}
@@ -785,10 +808,11 @@ CKEDITOR.dialog.add( 'link', function( editor )
 										],
 										setup : function( data )
 										{
-											if ( data.anchors.length > 0 )
+											if ( data.anchors.length > 0 ) {
 												this.getElement().show();
-											else
+											} else {
 												this.getElement().hide();
+											}
 										}
 									}
 								]
@@ -802,10 +826,11 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								focus : true,
 								setup : function( data )
 								{
-									if ( data.anchors.length < 1 )
+									if ( data.anchors.length < 1 ) {
 										this.getElement().show();
-									else
+									} else {
 										this.getElement().hide();
+									}
 								}
 							}
 						],
@@ -839,8 +864,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								},
 								setup : function( data )
 								{
-									if ( data.email )
+									if ( data.email ) {
 										this.setValue( data.email.address );
+									}
 
 									var linkType = this.getDialog().getContentElement( 'info', 'linkType' );
 									if ( linkType && linkType.getValue() == 'email' )
@@ -848,8 +874,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								},
 								commit : function( data )
 								{
-									if ( !data.email )
+									if ( !data.email ) {
 										data.email = {};
+									}
 
 									data.email.address = this.getValue();
 								}
@@ -860,13 +887,15 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								label : linkLang.emailSubject,
 								setup : function( data )
 								{
-									if ( data.email )
+									if ( data.email ) {
 										this.setValue( data.email.subject );
+									}
 								},
 								commit : function( data )
 								{
-									if ( !data.email )
+									if ( !data.email ) {
 										data.email = {};
+									}
 
 									data.email.subject = this.getValue();
 								}
@@ -879,13 +908,15 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								'default' : '',
 								setup : function( data )
 								{
-									if ( data.email )
+									if ( data.email ) {
 										this.setValue( data.email.body );
+									}
 								},
 								commit : function( data )
 								{
-									if ( !data.email )
+									if ( !data.email ) {
 										data.email = {};
+									}
 
 									data.email.body = this.getValue();
 								}
@@ -929,14 +960,16 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								onChange : targetChanged,
 								setup : function( data )
 								{
-									if ( data.target )
+									if ( data.target ) {
 										this.setValue( data.target.type || 'notSet' );
+									}
 									targetChanged.call( this );
 								},
 								commit : function( data )
 								{
-									if ( !data.target )
+									if ( !data.target ) {
 										data.target = {};
+									}
 
 									data.target.type = this.getValue();
 								}
@@ -948,13 +981,15 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								'default' : '',
 								setup : function( data )
 								{
-									if ( data.target )
+									if ( data.target ) {
 										this.setValue( data.target.name );
+									}
 								},
 								commit : function( data )
 								{
-									if ( !data.target )
+									if ( !data.target ) {
 										data.target = {};
+									}
 
 									data.target.name = this.getValue().replace(/\W/gi, '');
 								}
@@ -1419,8 +1454,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 					var featureLength = featureList.length;
 					var addFeature = function( featureName )
 					{
-						if ( data.target[ featureName ] )
+						if ( data.target[ featureName ] ) {
 							featureList.push( featureName + '=' + data.target[ featureName ] );
+						}
 					};
 
 					for ( var i = 0 ; i < featureLength ; i++ )
@@ -1438,10 +1474,11 @@ CKEDITOR.dialog.add( 'link', function( editor )
 				}
 				else
 				{
-					if ( data.target.type != 'notSet' && data.target.name )
+					if ( data.target.type != 'notSet' && data.target.name ) {
 						attributes.target = data.target.name;
-					else
+					} else {
 						removeAttributes.push( 'target' );
+					}
 
 					removeAttributes.push( 'data-cke-pa-onclick', 'onclick' );
 				}
@@ -1457,28 +1494,31 @@ CKEDITOR.dialog.add( 'link', function( editor )
 						var string_='';
 						var classes = [];
 						var radioval = $('input:radio[name="_i-src"]:checked').val();
-						if (radioval)
+						if (radioval) {
 							classes.push(radioval);
+						}
 						if (document.getElementById('isrc-unitracc-breaket').checked)
 							classes.push('unitracc-breaket');
 						if (document.getElementById('isrc-content-only').checked)
 							classes.push('content-only');
 						value = classes.join(' ');
 					}
-					if ( value )
+					if ( value ) {
 						attributes[attrName] = value;
-					else
+					} else {
 						removeAttributes.push( attrName );
+					}
 				};
 
 				advAttr( 'advId', 'id' );
 				advAttr( 'advLangDir', 'dir' );
 				advAttr( 'advAccessKey', 'accessKey' );
 
-				if ( data.adv[ 'advName' ] )
+				if ( data.adv[ 'advName' ] ) {
 					attributes[ 'name' ] = attributes[ 'data-cke-saved-name' ] = data.adv[ 'advName' ];
-				else
+				} else {
 					removeAttributes = removeAttributes.concat( [ 'data-cke-saved-name', 'name' ] );
+				}
 
 				advAttr( 'advLangCode', 'lang' );
 				advAttr( 'advTabIndex', 'tabindex' );
@@ -1525,8 +1565,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 				element.setAttributes( attributes );
 				element.removeAttributes( removeAttributes );
 
-				if ( data.adv && data.adv.advName && CKEDITOR.plugins.link.synAnchorSelector )
+				if ( data.adv && data.adv.advName && CKEDITOR.plugins.link.synAnchorSelector ) {
 					element.addClass( element.getChildCount() ? 'cke_anchor' : 'cke_anchor_empty' );
+				}
 
 				// Update text view when user changes protocol (#4612).
 				if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 )
@@ -1543,11 +1584,13 @@ CKEDITOR.dialog.add( 'link', function( editor )
 		// ------------------------------------------------ [ return.onLoad ... [
 		onLoad : function()
 		{
-			if ( !editor.config.linkShowAdvancedTab )
+			if ( !editor.config.linkShowAdvancedTab ) {
 				this.hidePage( 'advanced' );		//Hide Advanded tab.
+			}
 
-			if ( !editor.config.linkShowTargetTab )
+			if ( !editor.config.linkShowTargetTab ) {
 				this.hidePage( 'target' );		//Hide Target tab.
+			}
 
 		}, // --------------------------------------------- ] ... return.onLoad ]
 		// ----------------------------------------------- [ return.onFocus ... [
