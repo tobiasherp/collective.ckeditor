@@ -1499,8 +1499,11 @@ CKEDITOR.dialog.add( 'link', function( editor )
 						if (radioval) {
 							classes.push(radioval);
 						}
-						if (document.getElementById('isrc-unitracc-breaket').checked)
+						if (document.getElementById('isrc-unitracc-breaket').checked) {
 							classes.push('unitracc-breaket');
+						} else {
+							classes.push('no-breaket');
+						}
 						if (document.getElementById('isrc-content-only').checked)
 							classes.push('content-only');
 						value = classes.join(' ');
