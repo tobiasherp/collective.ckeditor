@@ -442,30 +442,48 @@ CKEDITOR.dialog.add( 'link', function( editor )
 				title : linkLang.info,
 				elements :
 				[  // ------------------------- [ return.contents.elements ... [
-					{
-						id : 'linkType',
-						type : 'select',
-						label : linkLang.type,
-						'default' : 'url',
-						items :
-						[
-							[ linkLang.toUrl, 'url' ],
-							// [ _('internal link'), 'internal' ],
-							[ linkLang.toAnchor, 'anchor' ],
-							[ linkLang.toEmail, 'email' ]
-						],
-						onChange : linkTypeChanged,
-						onLoad : linkTypeChanged,
-						setup : function( data )
 						{
-							if ( data.type ) {
-								this.setValue( data.type );
-							}
-						},
-						commit : function( data )
-						{
-							data.type = this.getValue();
-						}
+							type : 'hbox',
+							widths : [ '25%', '75%' ],
+							children : [
+								{
+									id : 'linkType',
+									type : 'select',
+									label : linkLang.type,
+									'default' : 'url',
+									items :
+									[
+										[ linkLang.toUrl, 'url' ],
+										// [ _('internal link'), 'internal' ],
+										[ linkLang.toAnchor, 'anchor' ],
+										[ linkLang.toEmail, 'email' ]
+									],
+									onChange : linkTypeChanged,
+									onLoad : linkTypeChanged,
+									setup : function( data )
+									{
+										if ( data.type ) {
+											this.setValue( data.type );
+										}
+									},
+									commit : function( data )
+									{
+										data.type = this.getValue();
+									}
+								},
+								{
+									type : 'button',
+									id : 'browse',
+									hidden : 'true',
+									label: '&nbsp;',
+									filebrowser: {
+										action : 'Browse',
+										target: 'info:url',	// Tab-ID:Element-ID
+										url: editor.config.filebrowserImageBrowseUrl
+									},
+									label : commonLang.browseServer
+								}
+							]
 					},
 					{ // ------------------------------ [ vbox#urlOptions ... [
 						type : 'vbox',
@@ -692,17 +710,6 @@ CKEDITOR.dialog.add( 'link', function( editor )
 
 												'<tr><td>&nbsp;</td></tr>' + // TODO: Ersetzen durch CSS-Lösung
 												'</table>',
-									},
-									{
-										type : 'button',
-										id : 'browse',
-										hidden : 'true',
-										filebrowser: {
-											action : 'Browse',
-											target: 'info:url',	// Tab-ID:Element-ID
-											url: editor.config.filebrowserImageBrowseUrl
-										},
-										label : commonLang.browseServer
 									}
 								]
 							}
