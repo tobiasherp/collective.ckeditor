@@ -196,6 +196,9 @@ CKEDITOR.dialog.add( 'specialchar', function( editor )
 			var columns = this.definition.charColumns,
 				extraChars = editor.config.extraSpecialChars,
 				chars = editor.config.specialChars;
+			if (extraChars && extraChars.length > 0) {
+				chars = chars.concat(extraChars);
+			}
 
 			var charsTableLabel =  CKEDITOR.tools.getNextId() + '_specialchar_table_label';
 			var html = [ '<table role="listbox" aria-labelledby="' + charsTableLabel + '"' +
