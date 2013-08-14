@@ -224,7 +224,6 @@ class CKeditorView(BrowserView):
         params['toolbar_Custom'] = cke_properties.getProperty('toolbar_Custom')
         params['specialChars'] = cke_properties.getProperty('specialChars')
         params['extraSpecialChars'] = cke_properties.getProperty('extraSpecialChars') or '[]'
-        print 'extraSpecialChars:', params['extraSpecialChars']
         params['contentsCss'] = self.getCK_contentsCss()
         params['filebrowserBrowseUrl'] = self.getCK_finder_url(type='file')
         img_url = self.getCK_finder_url(type='image')
