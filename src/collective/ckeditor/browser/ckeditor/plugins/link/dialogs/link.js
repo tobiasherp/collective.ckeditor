@@ -626,8 +626,8 @@ CKEDITOR.dialog.add( 'link', function( editor )
 												'<tr>' +
 												  '<th scope="row"><label for="isrc-book-link-page">'+_('page')+'</label></th>' +
 												  '<td><input type="radio" name="_i-src"' +
-												             'id="isrc-book-link-page" value="book-link-page"' +
-												             'onclick="switchInternalSource(\'link\', \'page\')">' +
+												             'id="isrc-book-link-page" value=""' +
+												             'onclick="switchInternalSource(\'link\', \'\')">' +
 												  '</td>' +
 												  '<td></td>' +
 												'</tr>' +
@@ -693,6 +693,14 @@ CKEDITOR.dialog.add( 'link', function( editor )
 												             'id="isrc-unitracc-animation" value="unitracc-animation"' +
 												             'onclick="switchInternalSource(\'imbed\', \'animation\')">' +
 												  '</td>' +
+												'</tr>' +
+												'<tr>' +
+												  '<th scope="row"><label for="isrc-book-link-literature">'+_('UnitraccLiterature')+'</label></th>' +
+												  '<td><input type="radio" name="_i-src"' +
+												             'id="isrc-book-link-literature" value="book-link-literature"' +
+												             'onclick="switchInternalSource(\'link\', \'literature\')">' +
+												  '</td>' +
+												  '<td></td>' +
 												'</tr>' +
 												'<tr><td style="font-size: 50%">&nbsp;</td></tr>' + // TODO: Ersetzen durch CSS-Lösung
 												'<tr>' +
@@ -1508,7 +1516,11 @@ CKEDITOR.dialog.add( 'link', function( editor )
 						}
 						if (document.getElementById('isrc-unitracc-breaket').checked) {
 							classes.push('unitracc-breaket');
-						} else {
+						} else
+						if (jQuery.inArray(radioval, [
+							               'book-link-literature'
+							               ]) == -1
+							) {
 							classes.push('no-breaket');
 						}
 						if (document.getElementById('isrc-content-only').checked)
@@ -1629,6 +1641,9 @@ function switchInternalSource(linktype, datatype) {
 	if (datatype) {
 		if (datatype == 'image') {
 			typeview = datatype;
+		} else
+		if (datatype == 'literature') {
+			document.getElementById('isrc-content-only').checked = true;
 		}
 		if (datatype == 'page') {
 			utype = 'Document'
