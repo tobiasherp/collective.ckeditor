@@ -2,7 +2,7 @@
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 
-src/collective/ckeditor/browser/ckeditor/plugins/link/dialogs/link.js
+src/collective/ckeditor/_src/ckeditor/_source/plugins/link/dialogs/link.js
 */
 
 CKEDITOR.dialog.add( 'link', function( editor )
