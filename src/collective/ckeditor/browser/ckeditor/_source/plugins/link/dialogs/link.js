@@ -616,7 +616,7 @@ CKEDITOR.dialog.add( 'link', function( editor )
 												'<tr>' +
 												  '<th scope="row"><label for="isrc-book-link-image">'+_('image')+'</label></th>' +
 												  '<td><input type="radio" name="_i-src"' +
-												             'id="isrc-book-link-page" value="book-link-page"' +
+												             'id="isrc-book-link-image" value="book-link-image"' +
 												             'onclick="switchInternalSource(\'link\', \'image\')">' +
 												  '</td>' +
 												  '<td></td>' +
@@ -1499,8 +1499,11 @@ CKEDITOR.dialog.add( 'link', function( editor )
 						if (radioval) {
 							classes.push(radioval);
 						}
-						if (document.getElementById('isrc-unitracc-breaket').checked)
+						if (document.getElementById('isrc-unitracc-breaket').checked) {
 							classes.push('unitracc-breaket');
+						} else {
+							classes.push('no-breaket');
+						}
 						if (document.getElementById('isrc-content-only').checked)
 							classes.push('content-only');
 						value = classes.join(' ');
@@ -1609,6 +1612,64 @@ CKEDITOR.dialog.add( 'link', function( editor )
 		}  // -------------------------------------------- ] ... return.onFocus ]
 	};	// return { ... }
 });
+
+function switchInternalSource(linktype, datatype) {
+	var dialog = CKEDITOR.dialog.getCurrent();
+	var browsectl = dialog.getContentElement('info', 'browse');
+	var url = '/@@unitraccckfinder?media=non-image';
+	var typeview = 'non-image';
+	var utype;
+	if (datatype) {
+		if (datatype == 'image') {
+			typeview = datatype;
+		}
+		if (datatype == 'page') {
+			utype = 'Document'
+		} else {
+			utype = 'Unitracc'+capitaliseFirstLetter(datatype);
+		}
+		url += '&typeview='+typeview+'&type='+utype;
+	} else {
+		url += '&typeview=file';
+	}
+	// "disabled" hat evtl. unerw. Nebeneffekte:
+	// unitraccLinkDetailsAvailable(linktype=='link');
+	browsectl.filebrowser.url = url;
+}
+
+function capitaliseFirstLetter(s) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+/**
+ * haystack - eine Zeichenkette
+ * needle - eine mutmasslich kuerzere Zeichenkette, mit der <haystack>
+ *          evtl. beginnt, oder ein Array solcher Praefixe
+ */
+function stringStartsWith(haystack, needle) {
+	if (jq.isArray(needle)) {
+		for (var n=0; n < needle.length; n++)
+			if (stringStartsWith(haystack, needle[n]))
+				return true;
+		return false;
+	}
+	if (needle.length > haystack.length)
+		return false;
+	return haystack.substring(0, needle.length) == needle;
+}
+
+
+/**
+ * enable -- Wahrheitswert
+ *           Wenn false, werden die beiden Checkboxen ausgegraut
+ */
+function unitraccLinkDetailsAvailable(enable) {
+	var cbs = [document.getElementById('isrc-unitracc-breaket'),
+		       document.getElementById('isrc-content-only')];
+	for (var i=0; i<cbs.length; i++) {
+		cbs[i].disabled = !enable;
+	}
+}
 
 /**
  * The e-mail address anti-spam protection option. The protection will be
