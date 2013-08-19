@@ -586,7 +586,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 											'<div id="' + imagePreviewLoaderId + '" class="ImagePreviewLoader" style="display:none"><div class="loading">&nbsp;</div></div>'+
 											'<div class="ImagePreviewBox"><table><tr><td>'+
 											'<a href="javascript:void(0)" target="_blank" onclick="return false;" id="' + previewLinkId + '">'+
-											'<img id="' + previewImageId + '" alt="" /></a>' +
+											'<img id="' + previewImageId + '" alt="" class="media"/></a>' +
 											( editor.config.image_previewText ||
 											'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. '+
 											'Maecenas feugiat consequat diam. Maecenas metus. Vivamus diam purus, cursus a, commodo non, facilisis vitae, '+
@@ -890,31 +890,46 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                                                     type: 'select',
                                                     id: 'cmbImageAdjustment',
                                                     label: _('Image adjustment'),
-                                                    items: [[_('Please select'),''],[_('Image on left'),'image-left'],[_('Image on right'),'image-right'],[_('Image on top'),'image-inline']],
+                                                    items: [[_('Please select'),''],[_('Image left'),'media-left'],[_('Image right'),'media-right'],[_('Image top'),'media-inline']],
                                                     'default': '',
 													setup : function( type, element )
 													{
 														if ( type == IMAGE )
 														{
-														    styles_=['image-left','image-right','image-inline'];
+														    style_prefix_=['-left','-right','-inline'];
+														    styles_=['media-left','media-right','media-inline'];
 														    for (var i = 0; i <= styles_.length; i++) {
-														        if (jq(element).attr('class').indexOf(styles_[i])!=-1) {
+														        if (jq(element).attr('class').indexOf(style_prefix_[i])!=-1) {
 														            this.setValue(styles_[i]);
 														        }
 														    }
 														}
 													},
                                                     onChange: function() {
-                                                        updatePreview( this.getDialog() );
+                                                        var element = this.getDialog().preview;
+                         								style_prefix_=['-left','-right','-inline'];
+													    styles_=['media-left','media-right','media-inline'];
+													    for (var i = 0; i <= styles_.length; i++) {
+													        if (jq(element).attr('class')!=undefined) {
+    													        if (jq(element).attr('class').indexOf(style_prefix_[i])!=-1) {
+    													            element.removeClass(styles_[i]);
+    													        }
+													        }
+													    }
+
+                    									if ( this.getValue() || this.isChanged() )
+                    									    element.addClass(this.getValue());
+
                                                     },
                                                     commit : function( type, element )
                         							{
                         							    if ( type == IMAGE )
                         								{
-                            								styles_=['image-left','image-right','image-inline'];
+                            								style_prefix_=['-left','-right','-inline'];
+														    styles_=['media-left','media-right','media-inline'];
     													    for (var i = 0; i <= styles_.length; i++) {
     													        if (jq(element).attr('class')!=undefined) {
-        													        if (jq(element).attr('class').indexOf(styles_[i])!=-1) {
+        													        if (jq(element).attr('class').indexOf(style_prefix_[i])!=-1) {
         													            element.removeClass(styles_[i]);
         													        }
     													        }
@@ -938,7 +953,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                         								    }
                         								}
                         							}
-                                                }
+                        						}
 									        ]
                                         },
 									]
