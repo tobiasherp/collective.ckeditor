@@ -442,30 +442,48 @@ CKEDITOR.dialog.add( 'link', function( editor )
 				title : linkLang.info,
 				elements :
 				[  // ------------------------- [ return.contents.elements ... [
-					{
-						id : 'linkType',
-						type : 'select',
-						label : linkLang.type,
-						'default' : 'url',
-						items :
-						[
-							[ linkLang.toUrl, 'url' ],
-							// [ _('internal link'), 'internal' ],
-							[ linkLang.toAnchor, 'anchor' ],
-							[ linkLang.toEmail, 'email' ]
-						],
-						onChange : linkTypeChanged,
-						onLoad : linkTypeChanged,
-						setup : function( data )
 						{
-							if ( data.type ) {
-								this.setValue( data.type );
-							}
-						},
-						commit : function( data )
-						{
-							data.type = this.getValue();
-						}
+							type : 'hbox',
+							widths : [ '25%', '75%' ],
+							children : [
+								{
+									id : 'linkType',
+									type : 'select',
+									label : linkLang.type,
+									'default' : 'url',
+									items :
+									[
+										[ linkLang.toUrl, 'url' ],
+										// [ _('internal link'), 'internal' ],
+										[ linkLang.toAnchor, 'anchor' ],
+										[ linkLang.toEmail, 'email' ]
+									],
+									onChange : linkTypeChanged,
+									onLoad : linkTypeChanged,
+									setup : function( data )
+									{
+										if ( data.type ) {
+											this.setValue( data.type );
+										}
+									},
+									commit : function( data )
+									{
+										data.type = this.getValue();
+									}
+								},
+								{
+									type : 'button',
+									id : 'browse',
+									hidden : 'true',
+									label: '&nbsp;',
+									filebrowser: {
+										action : 'Browse',
+										target: 'info:url',	// Tab-ID:Element-ID
+										url: editor.config.filebrowserImageBrowseUrl
+									},
+									label : commonLang.browseServer
+								}
+							]
 					},
 					{ // ------------------------------ [ vbox#urlOptions ... [
 						type : 'vbox',
@@ -608,8 +626,8 @@ CKEDITOR.dialog.add( 'link', function( editor )
 												'<tr>' +
 												  '<th scope="row"><label for="isrc-book-link-page">'+_('page')+'</label></th>' +
 												  '<td><input type="radio" name="_i-src"' +
-												             'id="isrc-book-link-page" value="book-link-page"' +
-												             'onclick="switchInternalSource(\'link\', \'page\')">' +
+												             'id="isrc-book-link-page" value=""' +
+												             'onclick="switchInternalSource(\'link\', \'\')">' +
 												  '</td>' +
 												  '<td></td>' +
 												'</tr>' +
@@ -676,6 +694,14 @@ CKEDITOR.dialog.add( 'link', function( editor )
 												             'onclick="switchInternalSource(\'imbed\', \'animation\')">' +
 												  '</td>' +
 												'</tr>' +
+												'<tr>' +
+												  '<th scope="row"><label for="isrc-book-link-literature">'+_('UnitraccLiterature')+'</label></th>' +
+												  '<td><input type="radio" name="_i-src"' +
+												             'id="isrc-book-link-literature" value="book-link-literature"' +
+												             'onclick="switchInternalSource(\'link\', \'literature\')">' +
+												  '</td>' +
+												  '<td></td>' +
+												'</tr>' +
 												'<tr><td style="font-size: 50%">&nbsp;</td></tr>' + // TODO: Ersetzen durch CSS-Lösung
 												'<tr>' +
 												  '<th scope="row"><label for="isrc-unitracc-breaket">'+_('With bracket')+'</label></th>' +
@@ -692,17 +718,6 @@ CKEDITOR.dialog.add( 'link', function( editor )
 
 												'<tr><td>&nbsp;</td></tr>' + // TODO: Ersetzen durch CSS-Lösung
 												'</table>',
-									},
-									{
-										type : 'button',
-										id : 'browse',
-										hidden : 'true',
-										filebrowser: {
-											action : 'Browse',
-											target: 'info:url',	// Tab-ID:Element-ID
-											url: editor.config.filebrowserImageBrowseUrl
-										},
-										label : commonLang.browseServer
 									}
 								]
 							}
@@ -1501,7 +1516,11 @@ CKEDITOR.dialog.add( 'link', function( editor )
 						}
 						if (document.getElementById('isrc-unitracc-breaket').checked) {
 							classes.push('unitracc-breaket');
-						} else {
+						} else
+						if (jQuery.inArray(radioval, [
+							               'book-link-literature'
+							               ]) == -1
+							) {
 							classes.push('no-breaket');
 						}
 						if (document.getElementById('isrc-content-only').checked)
@@ -1622,6 +1641,9 @@ function switchInternalSource(linktype, datatype) {
 	if (datatype) {
 		if (datatype == 'image') {
 			typeview = datatype;
+		} else
+		if (datatype == 'literature') {
+			document.getElementById('isrc-content-only').checked = true;
 		}
 		if (datatype == 'page') {
 			utype = 'Document'
