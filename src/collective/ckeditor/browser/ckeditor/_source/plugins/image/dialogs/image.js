@@ -890,7 +890,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                                                     type: 'select',
                                                     id: 'cmbImageAdjustment',
                                                     label: _('Image adjustment'),
-                                                    items: [[_('Please select'),''],[_('Image on left'),'image-left'],[_('Image on right'),'image-right'],[_('Image on top'),'image-inline']],
+                                                    items: [[_('Please select'),''],
+															[_('Image on left'),'image-left'],
+															[_('Image on right'),'image-right'],
+															[_('Image on top'),'image-inline']],
                                                     'default': '',
 													setup : function( type, element )
 													{
