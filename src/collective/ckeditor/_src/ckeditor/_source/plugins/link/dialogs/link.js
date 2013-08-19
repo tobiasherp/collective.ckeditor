@@ -1,6 +1,8 @@
 ﻿/*
 Copyright (c) 2003-2013, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
+
+src/collective/ckeditor/_src/ckeditor/_source/plugins/link/dialogs/link.js
 */
 
 CKEDITOR.dialog.add( 'link', function( editor )
@@ -14,8 +16,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 			targetName = dialog.getContentElement( 'target', 'linkTargetName' ),
 			value = this.getValue();
 
-		if ( !popupFeatures || !targetName )
+		if ( !popupFeatures || !targetName ) {
 			return;
+		}
 
 		popupFeatures = popupFeatures.getElement();
 		popupFeatures.hide();
@@ -44,36 +47,41 @@ CKEDITOR.dialog.add( 'link', function( editor )
 	var linkTypeChanged = function()
 	{
 		var dialog = this.getDialog(),
-			partIds = [ 'urlOptions', 'anchorOptions', 'emailOptions' ],
+			partIds = [ 'urlOptions',
+			            'anchorOptions', 'emailOptions' ],
 			typeValue = this.getValue(),
 			uploadTab = dialog.definition.getContents( 'upload' ),
 			uploadInitiallyHidden = uploadTab && uploadTab.hidden;
 
+		dialog.hidePage('advanced');
 		if ( typeValue == 'url' )
 		{
-			if ( editor.config.linkShowTargetTab )
+			if ( editor.config.linkShowTargetTab ) {
 				dialog.showPage( 'target' );
-			if ( !uploadInitiallyHidden )
+			}
+			if ( !uploadInitiallyHidden ) {
 				dialog.showPage( 'upload' );
-		}
-		else
-		{
+			}
+		} else {
 			dialog.hidePage( 'target' );
-			if ( !uploadInitiallyHidden )
+			if ( !uploadInitiallyHidden ) {
 				dialog.hidePage( 'upload' );
+			}
 		}
 
 		for ( var i = 0 ; i < partIds.length ; i++ )
 		{
 			var element = dialog.getContentElement( 'info', partIds[i] );
-			if ( !element )
+			if ( !element ) {
 				continue;
+			}
 
 			element = element.getElement().getParent().getParent();
-			if ( partIds[i] == typeValue + 'Options' )
+			if ( partIds[i] == typeValue + 'Options' ) { // e.g. urlOptions
 				element.show();
-			else
+			} else {
 				element.hide();
+			}
 		}
 
 		dialog.layout();
@@ -207,10 +215,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 			else
 			{
 				var targetMatch = target.match( selectableTargets );
-				if ( targetMatch )
+				if ( targetMatch ) {
 					retval.target.type = retval.target.name = target;
-				else
-				{
+				} else {
 					retval.target.type = 'frame';
 					retval.target.name = target;
 				}
@@ -220,8 +227,26 @@ CKEDITOR.dialog.add( 'link', function( editor )
 			var advAttr = function( inputName, attrName )
 			{
 				var value = element.getAttribute( attrName );
-				if ( value !== null )
+				if ( value !== null ) {
 					retval.adv[ inputName ] = value || '';
+					if (attrName == 'class') {
+						/**
+						 * ------------------- CSS-Klassen auslesen -------------------
+						 */
+						var classes = (value || '').split(' ');
+						// Checkboxen zuruecksetzen:
+						document.getElementById('isrc-unitracc-breaket').checked = false;
+						document.getElementById('isrc-content-only').checked = false;
+						for (var i=0; i<classes.length; i++) {
+							var radio = document.getElementById('isrc-'+classes[i]);
+							if (radio) {
+								radio.checked = true;
+							}
+						}
+					}
+				} else if (attrName == 'class') {
+					document.getElementById('isrc-book-link-page').checked = true;
+				}
 			};
 			advAttr( 'advId', 'id' );
 			advAttr( 'advLangDir', 'dir' );
@@ -254,8 +279,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 			for ( i = 0, count = links.count(); i < count; i++ )
 			{
 				item = links.getItem( i );
-				if ( item.data( 'cke-saved-name' ) || item.hasAttribute( 'name' ) )
+				if ( item.data( 'cke-saved-name' ) || item.hasAttribute( 'name' ) ) {
 					anchors.push( { name : item.data( 'cke-saved-name' ) || item.getAttribute( 'name' ), id : item.getAttribute( 'id' ) } );
+				}
 			}
 		}
 		else
@@ -273,20 +299,32 @@ CKEDITOR.dialog.add( 'link', function( editor )
 			var imgs = editor.document.getElementsByTag( 'img' );
 			for ( i = 0, count = imgs.count(); i < count; i++ )
 			{
-				if ( ( item = CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, imgs.getItem( i ) ) ) )
+				if ( ( item = CKEDITOR.plugins.link.tryRestoreFakeAnchor( editor, imgs.getItem( i ) ) ) ) {
 					anchors.push( { name : item.getAttribute( 'name' ), id : item.getAttribute( 'id' ) } );
+				}
 			}
 		}
 
 		// Record down the selected element in the dialog.
 		this._.selectedElement = element;
 		return retval;
-	};
+	};	// ... parseLink(editor, element)
 
 	var setupParams = function( page, data )
 	{
-		if ( data[page] )
-			this.setValue( data[page][this.id] || '' );
+		if ( data[page] ) {
+			if (this.setValue) {
+				this.setValue( data[page][this.id] || '' );
+			} else {
+				console.log('setupParams():');
+				console.log('  page, data[page], this:');
+				console.log(page);
+				console.log(data[page]);
+				console.log(this);
+				console.log('kein Attribut this.setValue');
+				console.log('... setupParams()');
+			}
+		}
 	};
 
 	var setupPopupParams = function( data )
@@ -301,8 +339,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 
 	var commitParams = function( page, data )
 	{
-		if ( !data[page] )
+		if ( !data[page] ) {
 			data[page] = {};
+		}
 
 		data[page][this.id] = this.getValue() || '';
 	};
@@ -395,14 +434,14 @@ CKEDITOR.dialog.add( 'link', function( editor )
 	return {
 		title : linkLang.title,
 		minWidth : 350,
-		minHeight : 230,
-		contents : [
-			{
+		minHeight : 405,
+		contents : [  // ------------------------------- [ return.contents ... [
+			{  // -------------------- [ return.contents[0]: Link-Info-Tab ... [
 				id : 'info',
 				label : linkLang.info,
 				title : linkLang.info,
 				elements :
-				[
+				[  // ------------------------- [ return.contents.elements ... [
 					{
 						id : 'linkType',
 						type : 'select',
@@ -411,21 +450,24 @@ CKEDITOR.dialog.add( 'link', function( editor )
 						items :
 						[
 							[ linkLang.toUrl, 'url' ],
+							// [ _('internal link'), 'internal' ],
 							[ linkLang.toAnchor, 'anchor' ],
 							[ linkLang.toEmail, 'email' ]
 						],
 						onChange : linkTypeChanged,
+						onLoad : linkTypeChanged,
 						setup : function( data )
 						{
-							if ( data.type )
+							if ( data.type ) {
 								this.setValue( data.type );
+							}
 						},
 						commit : function( data )
 						{
 							data.type = this.getValue();
 						}
 					},
-					{
+					{ // ------------------------------ [ vbox#urlOptions ... [
 						type : 'vbox',
 						id : 'urlOptions',
 						children :
@@ -451,13 +493,15 @@ CKEDITOR.dialog.add( 'link', function( editor )
 										],
 										setup : function( data )
 										{
-											if ( data.url )
+											if ( data.url ) {
 												this.setValue( data.url.protocol || '' );
+											}
 										},
 										commit : function( data )
 										{
-											if ( !data.url )
+											if ( !data.url ) {
 												data.url = {};
+											}
 
 											data.url.protocol = this.getValue();
 										}
@@ -492,24 +536,27 @@ CKEDITOR.dialog.add( 'link', function( editor )
 										},
 										onChange : function()
 										{
-											if ( this.allowOnChange )		// Dont't call on dialog load.
+											if ( this.allowOnChange ) {		// Dont't call on dialog load.
 												this.onKeyUp();
+											}
 										},
 										validate : function()
 										{
 											var dialog = this.getDialog();
 
 											if ( dialog.getContentElement( 'info', 'linkType' ) &&
-													dialog.getValueOf( 'info', 'linkType' ) != 'url' )
+													dialog.getValueOf( 'info', 'linkType' ) != 'url' ) {
 												return true;
+											}
 
 											if ( (/javascript\:/).test( this.getValue() ) ) {
 												alert( commonLang.invalidValue );
 												return false;
 											}
 
-											if ( this.getDialog().fakeObj )	// Edit Anchor.
+											if ( this.getDialog().fakeObj )	{ // Edit Anchor.
 												return true;
+											}
 
 											var func = CKEDITOR.dialog.validate.notEmpty( linkLang.noUrl );
 											return func.apply( this );
@@ -517,8 +564,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 										setup : function( data )
 										{
 											this.allowOnChange = false;
-											if ( data.url )
+											if ( data.url ) {
 												this.setValue( data.url.url );
+											}
 											this.allowOnChange = true;
 
 										},
@@ -528,8 +576,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 											// to carry all the operations #4724
 											this.onChange();
 
-											if ( !data.url )
+											if ( !data.url ) {
 												data.url = {};
+											}
 
 											data.url.url = this.getValue();
 											this.allowOnChange = false;
@@ -543,15 +592,123 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								}
 							},
 							{
-								type : 'button',
-								id : 'browse',
-								hidden : 'true',
-								filebrowser : 'info:url',
-								label : commonLang.browseServer
+								type: 'fieldset',
+								id: 'internallinkFieldset',
+								label: _('internal link'),
+								children: [
+									{
+										type: 'html',
+										html: '<div style="text-align: left">'+
+											  '<table class="radio-array"><tr>'+
+												'<tr>' +
+												  '<td style="width: 50%"></td>' +
+												  '<th style="width: 25%;padding:0.1em 0.5em;" scope="column">'+_('link')+'</th>' +
+												  '<th style="width: 25%;padding:0.1em 0.5em;" scope="column">'+_('imbed')+'</th>' +
+												'</tr>' +
+												'<tr>' +
+												  '<th scope="row"><label for="isrc-book-link-page">'+_('page')+'</label></th>' +
+												  '<td><input type="radio" name="_i-src"' +
+												             'id="isrc-book-link-page" value="book-link-page"' +
+												             'onclick="switchInternalSource(\'link\', \'page\')">' +
+												  '</td>' +
+												  '<td></td>' +
+												'</tr>' +
+												'<tr>' +
+												  '<th scope="row"><label for="isrc-book-link-image">'+_('image')+'</label></th>' +
+												  '<td><input type="radio" name="_i-src"' +
+												             'id="isrc-book-link-image" value="book-link-image"' +
+												             'onclick="switchInternalSource(\'link\', \'image\')">' +
+												  '</td>' +
+												  '<td></td>' +
+												'</tr>' +
+												'<tr>' +
+												  '<th scope="row"><label for="isrc-book-link-table">'+_('UnitraccTable')+'</label></th>' +
+												  '<td><input type="radio" name="_i-src"' +
+												             'id="isrc-book-link-table" value="book-link-table"' +
+												             'onclick="switchInternalSource(\'link\', \'table\')">' +
+												  '</td>' +
+												  '<td><input type="radio" name="_i-src"' +
+												             'id="isrc-unitracc-table" value="unitracc-table"' +
+												             'onclick="switchInternalSource(\'imbed\', \'table\')">' +
+												  '</td>' +
+												'</tr>' +
+												'<tr>' +
+												  '<th scope="row"><label for="isrc-book-link-formula">'+_('UnitraccFormula')+'</label></th>' +
+												  '<td><input type="radio" name="_i-src"' +
+												             'id="isrc-book-link-formula" value="book-link-formula"' +
+												             'onclick="switchInternalSource(\'link\', \'formula\')">' +
+												  '</td>' +
+												  '<td><input type="radio" name="_i-src"' +
+												             'id="isrc-unitracc-formula" value="unitracc-formula"' +
+												             'onclick="switchInternalSource(\'imbed\', \'formula\')">' +
+												  '</td>' +
+												'</tr>' +
+												'<tr>' +
+												  '<th scope="row"><label for="isrc-book-link-video">'+_('UnitraccVideo')+'</label></th>' +
+												  '<td><input type="radio" name="_i-src"' +
+												             'id="isrc-book-link-video" value="book-link-video"' +
+												             'onclick="switchInternalSource(\'link\', \'video\')">' +
+												  '</td>' +
+												  '<td><input type="radio" name="_i-src"' +
+												             'id="isrc-unitracc-video" value="unitracc-video"' +
+												             'onclick="switchInternalSource(\'imbed\', \'video\')">' +
+												  '</td>' +
+												'</tr>' +
+												'<tr>' +
+												  '<th scope="row"><label for="isrc-book-link-audio">'+_('UnitraccAudio')+'</label></th>' +
+												  '<td><input type="radio" name="_i-src"' +
+												             'id="isrc-book-link-audio" value="book-link-audio"' +
+												             'onclick="switchInternalSource(\'link\', \'audio\')">' +
+												  '</td>' +
+												  '<td><input type="radio" name="_i-src"' +
+												             'id="isrc-unitracc-audio" value="unitracc-audio"' +
+												             'onclick="switchInternalSource(\'imbed\', \'audio\')">' +
+												  '</td>' +
+												'</tr>' +
+												'<tr>' +
+												  '<th scope="row"><label for="isrc-book-link-animation">'+_('UnitraccAnimation')+'</label></th>' +
+												  '<td><input type="radio" name="_i-src"' +
+												             'id="isrc-book-link-animation" value="book-link-animation"' +
+												             'onclick="switchInternalSource(\'link\', \'animation\')">' +
+												  '</td>' +
+												  '<td><input type="radio" name="_i-src"' +
+												             'id="isrc-unitracc-animation" value="unitracc-animation"' +
+												             'onclick="switchInternalSource(\'imbed\', \'animation\')">' +
+												  '</td>' +
+												'</tr>' +
+												'<tr><td style="font-size: 50%">&nbsp;</td></tr>' + // TODO: Ersetzen durch CSS-Lösung
+												'<tr>' +
+												  '<th scope="row"><label for="isrc-unitracc-breaket">'+_('With bracket')+'</label></th>' +
+												  '<td><input type="checkbox" id="isrc-unitracc-breaket"' +
+												            ' value="unitracc-breaket"' +
+												  '</td>' +
+												'</tr>' +
+												'<tr>' +
+												  '<th scope="row"><label for="isrc-content-only">'+_('Open target in popup')+'</label></th>' +
+												  '<td><input type="checkbox" id="isrc-content-only"' +
+												            ' value="content-only"' +
+												  '</td>' +
+												'</tr>' +
+
+												'<tr><td>&nbsp;</td></tr>' + // TODO: Ersetzen durch CSS-Lösung
+												'</table>',
+									},
+									{
+										type : 'button',
+										id : 'browse',
+										hidden : 'true',
+										filebrowser: {
+											action : 'Browse',
+											target: 'info:url',	// Tab-ID:Element-ID
+											url: editor.config.filebrowserImageBrowseUrl
+										},
+										label : commonLang.browseServer
+									}
+								]
 							}
 						]
-					},
-					{
+					}, // ------------------------------ ] ... vbox#urlOptions ]
+					{  // --------------------------- [ vbox#anchorOptions ... [
 						type : 'vbox',
 						id : 'anchorOptions',
 						width : 260,
@@ -565,10 +722,11 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								label : linkLang.selectAnchor,
 								setup : function( data )
 								{
-									if ( data.anchors.length > 0 )
+									if ( data.anchors.length > 0 ) {
 										this.getElement().show();
-									else
+									} else {
 										this.getElement().hide();
+									}
 								},
 								children :
 								[
@@ -593,12 +751,14 @@ CKEDITOR.dialog.add( 'link', function( editor )
 													this.add( '' );
 													for ( var i = 0 ; i < data.anchors.length ; i++ )
 													{
-														if ( data.anchors[i].name )
+														if ( data.anchors[i].name ) {
 															this.add( data.anchors[i].name );
+														}
 													}
 
-													if ( data.anchor )
+													if ( data.anchor ) {
 														this.setValue( data.anchor.name );
+													}
 
 													var linkType = this.getDialog().getContentElement( 'info', 'linkType' );
 													if ( linkType && linkType.getValue() == 'email' )
@@ -606,8 +766,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 												},
 												commit : function( data )
 												{
-													if ( !data.anchor )
+													if ( !data.anchor ) {
 														data.anchor = {};
+													}
 
 													data.anchor.name = this.getValue();
 												}
@@ -628,17 +789,20 @@ CKEDITOR.dialog.add( 'link', function( editor )
 													this.add( '' );
 													for ( var i = 0 ; i < data.anchors.length ; i++ )
 													{
-														if ( data.anchors[i].id )
+														if ( data.anchors[i].id ) {
 															this.add( data.anchors[i].id );
+														}
 													}
 
-													if ( data.anchor )
+													if ( data.anchor ) {
 														this.setValue( data.anchor.id );
+													}
 												},
 												commit : function( data )
 												{
-													if ( !data.anchor )
+													if ( !data.anchor ) {
 														data.anchor = {};
+													}
 
 													data.anchor.id = this.getValue();
 												}
@@ -646,10 +810,11 @@ CKEDITOR.dialog.add( 'link', function( editor )
 										],
 										setup : function( data )
 										{
-											if ( data.anchors.length > 0 )
+											if ( data.anchors.length > 0 ) {
 												this.getElement().show();
-											else
+											} else {
 												this.getElement().hide();
+											}
 										}
 									}
 								]
@@ -663,10 +828,11 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								focus : true,
 								setup : function( data )
 								{
-									if ( data.anchors.length < 1 )
+									if ( data.anchors.length < 1 ) {
 										this.getElement().show();
-									else
+									} else {
 										this.getElement().hide();
+									}
 								}
 							}
 						],
@@ -675,8 +841,8 @@ CKEDITOR.dialog.add( 'link', function( editor )
 							if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
 								this.getElement().hide();
 						}
-					},
-					{
+					}, // --------------------------- ] ... vbox#anchorOptions ]
+					{  // ---------------------------- [ vbox#emailOptions ... [
 						type :  'vbox',
 						id : 'emailOptions',
 						padding : 1,
@@ -700,8 +866,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								},
 								setup : function( data )
 								{
-									if ( data.email )
+									if ( data.email ) {
 										this.setValue( data.email.address );
+									}
 
 									var linkType = this.getDialog().getContentElement( 'info', 'linkType' );
 									if ( linkType && linkType.getValue() == 'email' )
@@ -709,8 +876,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								},
 								commit : function( data )
 								{
-									if ( !data.email )
+									if ( !data.email ) {
 										data.email = {};
+									}
 
 									data.email.address = this.getValue();
 								}
@@ -721,13 +889,15 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								label : linkLang.emailSubject,
 								setup : function( data )
 								{
-									if ( data.email )
+									if ( data.email ) {
 										this.setValue( data.email.subject );
+									}
 								},
 								commit : function( data )
 								{
-									if ( !data.email )
+									if ( !data.email ) {
 										data.email = {};
+									}
 
 									data.email.subject = this.getValue();
 								}
@@ -740,13 +910,15 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								'default' : '',
 								setup : function( data )
 								{
-									if ( data.email )
+									if ( data.email ) {
 										this.setValue( data.email.body );
+									}
 								},
 								commit : function( data )
 								{
-									if ( !data.email )
+									if ( !data.email ) {
 										data.email = {};
+									}
 
 									data.email.body = this.getValue();
 								}
@@ -757,10 +929,10 @@ CKEDITOR.dialog.add( 'link', function( editor )
 							if ( !this.getDialog().getContentElement( 'info', 'linkType' ) )
 								this.getElement().hide();
 						}
-					}
-				]
-			},
-			{
+					}  // ---------------------------- ] ... vbox#emailOptions ]
+				]  // ------------------------- ] ... return.contents.elements ]
+			}, // ----------------------------------- ] ... return.contents[0] ]
+			{  // -------------------- [ return.contents[1]: Zielseite-Tab ... [
 				id : 'target',
 				label : linkLang.target,
 				title : linkLang.target,
@@ -790,14 +962,16 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								onChange : targetChanged,
 								setup : function( data )
 								{
-									if ( data.target )
+									if ( data.target ) {
 										this.setValue( data.target.type || 'notSet' );
+									}
 									targetChanged.call( this );
 								},
 								commit : function( data )
 								{
-									if ( !data.target )
+									if ( !data.target ) {
 										data.target = {};
+									}
 
 									data.target.type = this.getValue();
 								}
@@ -809,13 +983,15 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								'default' : '',
 								setup : function( data )
 								{
-									if ( data.target )
+									if ( data.target ) {
 										this.setValue( data.target.name );
+									}
 								},
 								commit : function( data )
 								{
-									if ( !data.target )
+									if ( !data.target ) {
 										data.target = {};
+									}
 
 									data.target.name = this.getValue().replace(/\W/gi, '');
 								}
@@ -979,8 +1155,8 @@ CKEDITOR.dialog.add( 'link', function( editor )
 						]
 					}
 				]
-			},
-			{
+			},  // ----------------------------------- ] ... return.contents[1] ]
+			{   // ----------------------- [ return.contents[2]: Upload-Tab ... [
 				id : 'upload',
 				label : linkLang.upload,
 				title : linkLang.upload,
@@ -1003,8 +1179,8 @@ CKEDITOR.dialog.add( 'link', function( editor )
 						'for' : [ 'upload', 'upload' ]
 					}
 				]
-			},
-			{
+			},  // ----------------------------------- ] ... return.contents[2] ]
+			{   // -------------------- [ return.contents[3]: Erweitert-Tab ... [
 				id : 'advanced',
 				label : linkLang.advanced,
 				title : linkLang.advanced,
@@ -1131,7 +1307,11 @@ CKEDITOR.dialog.add( 'link', function( editor )
 										label : linkLang.cssClasses,
 										'default' : '',
 										id : 'advCSSClasses',
-										setup : setupAdvParams,
+										// setup : setupAdvParams,
+										setup : function( data )
+										{
+											setupAdvParams(data);
+										},
 										commit : commitAdvParams
 
 									},
@@ -1173,8 +1353,8 @@ CKEDITOR.dialog.add( 'link', function( editor )
 						]
 					}
 				]
-			}
-		],
+			}   // ----------------------------------- ] ... return.contents[3] ]
+		],  // ------------------------------------------ ] ... return.contents ]
 		onShow : function()
 		{
 			var editor = this.getParentEditor(),
@@ -1182,13 +1362,16 @@ CKEDITOR.dialog.add( 'link', function( editor )
 				element = null;
 
 			// Fill in all the relevant fields if there's already one link selected.
-			if ( ( element = plugin.getSelectedLink( editor ) ) && element.hasAttribute( 'href' ) )
+			if ( ( element = plugin.getSelectedLink( editor ) ) && element.hasAttribute( 'href' ) ) {
 				selection.selectElement( element );
-			else
+			} else {
 				element = null;
+			}
 
 			this.setupContent( parseLink.apply( this, [ editor, element ] ) );
+			editor.resetDirty();
 		},
+		// -------------------------------------------------- [ return.onOk ... [
 		onOk : function()
 		{
 			var attributes = {},
@@ -1273,8 +1456,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 					var featureLength = featureList.length;
 					var addFeature = function( featureName )
 					{
-						if ( data.target[ featureName ] )
+						if ( data.target[ featureName ] ) {
 							featureList.push( featureName + '=' + data.target[ featureName ] );
+						}
 					};
 
 					for ( var i = 0 ; i < featureLength ; i++ )
@@ -1292,10 +1476,11 @@ CKEDITOR.dialog.add( 'link', function( editor )
 				}
 				else
 				{
-					if ( data.target.type != 'notSet' && data.target.name )
+					if ( data.target.type != 'notSet' && data.target.name ) {
 						attributes.target = data.target.name;
-					else
+					} else {
 						removeAttributes.push( 'target' );
+					}
 
 					removeAttributes.push( 'data-cke-pa-onclick', 'onclick' );
 				}
@@ -1307,20 +1492,38 @@ CKEDITOR.dialog.add( 'link', function( editor )
 				var advAttr = function( inputName, attrName )
 				{
 					var value = data.adv[ inputName ];
-					if ( value )
+					if (attrName == 'class') {
+						var string_='';
+						var classes = [];
+						var radioval = $('input:radio[name="_i-src"]:checked').val();
+						if (radioval) {
+							classes.push(radioval);
+						}
+						if (document.getElementById('isrc-unitracc-breaket').checked) {
+							classes.push('unitracc-breaket');
+						} else {
+							classes.push('no-breaket');
+						}
+						if (document.getElementById('isrc-content-only').checked)
+							classes.push('content-only');
+						value = classes.join(' ');
+					}
+					if ( value ) {
 						attributes[attrName] = value;
-					else
+					} else {
 						removeAttributes.push( attrName );
+					}
 				};
 
 				advAttr( 'advId', 'id' );
 				advAttr( 'advLangDir', 'dir' );
 				advAttr( 'advAccessKey', 'accessKey' );
 
-				if ( data.adv[ 'advName' ] )
+				if ( data.adv[ 'advName' ] ) {
 					attributes[ 'name' ] = attributes[ 'data-cke-saved-name' ] = data.adv[ 'advName' ];
-				else
+				} else {
 					removeAttributes = removeAttributes.concat( [ 'data-cke-saved-name', 'name' ] );
+				}
 
 				advAttr( 'advLangCode', 'lang' );
 				advAttr( 'advTabIndex', 'tabindex' );
@@ -1332,7 +1535,7 @@ CKEDITOR.dialog.add( 'link', function( editor )
 				advAttr( 'advRel', 'rel' );
 			}
 
-
+			
 			var selection = editor.getSelection();
 
 			// Browser need the "href" fro copy/paste link to work. (#6641)
@@ -1367,8 +1570,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 				element.setAttributes( attributes );
 				element.removeAttributes( removeAttributes );
 
-				if ( data.adv && data.adv.advName && CKEDITOR.plugins.link.synAnchorSelector )
+				if ( data.adv && data.adv.advName && CKEDITOR.plugins.link.synAnchorSelector ) {
 					element.addClass( element.getChildCount() ? 'cke_anchor' : 'cke_anchor_empty' );
+				}
 
 				// Update text view when user changes protocol (#4612).
 				if ( href == textView || data.type == 'email' && textView.indexOf( '@' ) != -1 )
@@ -1381,16 +1585,20 @@ CKEDITOR.dialog.add( 'link', function( editor )
 				selection.selectElement( element );
 				delete this._.selectedElement;
 			}
-		},
+		}, // ----------------------------------------------- ] ... return.onOk ]
+		// ------------------------------------------------ [ return.onLoad ... [
 		onLoad : function()
 		{
-			if ( !editor.config.linkShowAdvancedTab )
+			if ( !editor.config.linkShowAdvancedTab ) {
 				this.hidePage( 'advanced' );		//Hide Advanded tab.
+			}
 
-			if ( !editor.config.linkShowTargetTab )
+			if ( !editor.config.linkShowTargetTab ) {
 				this.hidePage( 'target' );		//Hide Target tab.
+			}
 
-		},
+		}, // --------------------------------------------- ] ... return.onLoad ]
+		// ----------------------------------------------- [ return.onFocus ... [
 		// Inital focus on 'url' field if link is of type URL.
 		onFocus : function()
 		{
@@ -1401,9 +1609,67 @@ CKEDITOR.dialog.add( 'link', function( editor )
 				urlField = this.getContentElement( 'info', 'url' );
 				urlField.select();
 			}
-		}
-	};
+		}  // -------------------------------------------- ] ... return.onFocus ]
+	};	// return { ... }
 });
+
+function switchInternalSource(linktype, datatype) {
+	var dialog = CKEDITOR.dialog.getCurrent();
+	var browsectl = dialog.getContentElement('info', 'browse');
+	var url = '/@@unitraccckfinder?media=non-image';
+	var typeview = 'non-image';
+	var utype;
+	if (datatype) {
+		if (datatype == 'image') {
+			typeview = datatype;
+		}
+		if (datatype == 'page') {
+			utype = 'Document'
+		} else {
+			utype = 'Unitracc'+capitaliseFirstLetter(datatype);
+		}
+		url += '&typeview='+typeview+'&type='+utype;
+	} else {
+		url += '&typeview=file';
+	}
+	// "disabled" hat evtl. unerw. Nebeneffekte:
+	// unitraccLinkDetailsAvailable(linktype=='link');
+	browsectl.filebrowser.url = url;
+}
+
+function capitaliseFirstLetter(s) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+/**
+ * haystack - eine Zeichenkette
+ * needle - eine mutmasslich kuerzere Zeichenkette, mit der <haystack>
+ *          evtl. beginnt, oder ein Array solcher Praefixe
+ */
+function stringStartsWith(haystack, needle) {
+	if (jq.isArray(needle)) {
+		for (var n=0; n < needle.length; n++)
+			if (stringStartsWith(haystack, needle[n]))
+				return true;
+		return false;
+	}
+	if (needle.length > haystack.length)
+		return false;
+	return haystack.substring(0, needle.length) == needle;
+}
+
+
+/**
+ * enable -- Wahrheitswert
+ *           Wenn false, werden die beiden Checkboxen ausgegraut
+ */
+function unitraccLinkDetailsAvailable(enable) {
+	var cbs = [document.getElementById('isrc-unitracc-breaket'),
+		       document.getElementById('isrc-content-only')];
+	for (var i=0; i<cbs.length; i++) {
+		cbs[i].disabled = !enable;
+	}
+}
 
 /**
  * The e-mail address anti-spam protection option. The protection will be
