@@ -159,7 +159,7 @@
 "&#9658;", // triangle arrow right
 "&bull;",
 "&rarr;", "&rArr;", "&hArr;", "&diams;", "&asymp;"
-];
+]
 ]]></property>
   <property name="extraSpecialChars" type="text">
   </property>
