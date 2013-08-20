@@ -16,13 +16,13 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			regexGetSizeOrEmpty = /(^\s*(\d+)((px)|\%)?\s*$)|^$/i,
 			pxLengthRegex = /^\d+px$/;
 
-        var handle_button_size_click = function(scaling) {
-            url_=CKEDITOR.dialog.getCurrent().getValueOf('info','txtUrl').toLowerCase();
-            splitted_=url_.split('/');
-            uid=splitted_[splitted_.indexOf('resolveuid')+1];
-            new_url='resolveuid/'+uid+'/'+scaling
-            CKEDITOR.dialog.getCurrent().setValueOf('info','txtUrl',new_url);
-        };
+		var handle_button_size_click = function(scaling) {
+			url_=CKEDITOR.dialog.getCurrent().getValueOf('info','txtUrl').toLowerCase();
+			splitted_=url_.split('/');
+			uid=splitted_[splitted_.indexOf('resolveuid')+1];
+			new_url='resolveuid/'+uid+'/'+scaling
+			CKEDITOR.dialog.getCurrent().setValueOf('info','txtUrl',new_url);
+		};
 
 		var onSizeChange = function()
 		{
@@ -77,8 +77,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 		// by other fields.
 		function commitContent()
 		{
-		    //CUSTOM
-		    //Auskommentiert TAB gibts nicht mehr
+			//CUSTOM
+			//Auskommentiert TAB gibts nicht mehr
 			var args = arguments;
 			//var inlineStyleField = this.getContentElement( 'advanced', 'txtdlgGenStyle' );
 			//inlineStyleField && inlineStyleField.commit.apply( inlineStyleField, args );
@@ -563,11 +563,11 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 											label : editor.lang.common.browseServer,
 											hidden : true,
 											filebrowser :
-							                {
-								                action : 'Browse',
-								                target: 'Link:txtUrl',	// Tab-ID:Element-ID
-								                url: editor.config.filebrowserImageBrowseUrl
-							                }
+											{
+												action : 'Browse',
+												target: 'Link:txtUrl',	// Tab-ID:Element-ID
+												url: editor.config.filebrowserImageBrowseUrl
+											}
 										}
 									]
 								},
@@ -578,7 +578,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 									style : 'margin-top:15px;',
 									children :
 									[
-                                        {
+										{
 											type : 'html',
 											id : 'htmlPreview',
 											style : 'width:95%;',
@@ -594,36 +594,36 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 											'</td></tr></table></div></div>'
 										},
 										{
-										    type : 'vbox',
-									        children :
-									        [
-										        {
-                                                    type: 'button',
-                                                    id: '520520',
-                                                    label: '520 x 520',
-                                                    title: '520 x 520',
-                                                    onClick: function() {
-                                                        handle_button_size_click('image_preview');
-                                                    }
-										        },
-										        {
-                                                    type: 'button',
-                                                    id: '240240',
-                                                    label: '240 x 240',
-                                                    title: '240 x 240',
-                                                    onClick: function() {
-                                                        handle_button_size_click('image_mini');
-                                                    }
-										        },
-										        {
-                                                    type: 'button',
-                                                    id: '120120',
-                                                    label: '120 x 120',
-                                                    title: '120 x 120',
-                                                    onClick: function() {
-                                                        handle_button_size_click('image_thumb');
-                                                    }
-										        },
+											type : 'vbox',
+											children :
+											[
+												{
+													type: 'button',
+													id: '520520',
+													label: '520 x 520',
+													title: '520 x 520',
+													onClick: function() {
+														handle_button_size_click('image_preview');
+													}
+												},
+												{
+													type: 'button',
+													id: '240240',
+													label: '240 x 240',
+													title: '240 x 240',
+													onClick: function() {
+														handle_button_size_click('image_mini');
+													}
+												},
+												{
+													type: 'button',
+													id: '120120',
+													label: '120 x 120',
+													title: '120 x 120',
+													onClick: function() {
+														handle_button_size_click('image_thumb');
+													}
+												},
 														{
 															type : 'text',
 															width: '40px',
@@ -674,7 +674,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 																}
 															}
 														},
-                                        {
+										{
 											id : 'ratioLock',
 											type : 'html',
 											style : 'width:10px;height:20px;',
@@ -786,176 +786,176 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 																}
 															}
 														}
-									        ]
+											]
 										},
-                                        {
-										    type : 'vbox',
-									        height : '250px',
-									        children :
-									        [
-                					            {
-                					                id : 'chkCaption',
-                									type : 'checkbox',
-                									label : _('Show caption'),
+										{
+											type : 'vbox',
+											height : '250px',
+											children :
+											[
+												{
+													id : 'chkCaption',
+													type : 'checkbox',
+													label : _('Show caption'),
 													setup : function( type, element )
 													{
-													    if (element.hasClass('image-caption')) {
-													        this.setValue(true);
-													    } else {
-													        this.setValue(false);
-													    }
+														if (element.hasClass('image-caption')) {
+															this.setValue(true);
+														} else {
+															this.setValue(false);
+														}
 													},
-                									commit : function( type, element )
-                        							{
-													    if ( type == IMAGE )
+													commit : function( type, element )
+													{
+														if ( type == IMAGE )
 														{
-														    element.removeClass('image-caption');
-														    if (this.getValue()==true) {
-														        element.addClass('image-caption');
-														    }
-													    }
-                        							}
-                					            },
-                					            {
-                					                id : 'chkLegend',
-                									type : 'checkbox',
-                									label : _('Show legend'),
+															element.removeClass('image-caption');
+															if (this.getValue()==true) {
+																element.addClass('image-caption');
+															}
+														}
+													}
+												},
+												{
+													id : 'chkLegend',
+													type : 'checkbox',
+													label : _('Show legend'),
 													setup : function( type, element )
 													{
-													    if (element.hasClass('image-legend')) {
-													        this.setValue(true);
-													    } else {
-													        this.setValue(false);
-													    }
+														if (element.hasClass('image-legend')) {
+															this.setValue(true);
+														} else {
+															this.setValue(false);
+														}
 													},
-                									commit : function( type, element )
-                        							{
-													    if ( type == IMAGE )
+													commit : function( type, element )
+													{
+														if ( type == IMAGE )
 														{
-														    element.removeClass('image-legend');
-														    if (this.getValue()==true) {
-														        element.addClass('image-legend');
-														    }
-													    }
-                        							}
-                					            },
-                					            {
-                					                id : 'chkLightbox',
-                									type : 'checkbox',
-                									label : _('No Lightbox'),
+															element.removeClass('image-legend');
+															if (this.getValue()==true) {
+																element.addClass('image-legend');
+															}
+														}
+													}
+												},
+												{
+													id : 'chkLightbox',
+													type : 'checkbox',
+													label : _('No Lightbox'),
 													setup : function( type, element )
 													{
-													    if (element.hasClass('no-lightbox')) {
-													        this.setValue(true);
-													    } else {
-													        this.setValue(false);
-													    }
+														if (element.hasClass('no-lightbox')) {
+															this.setValue(true);
+														} else {
+															this.setValue(false);
+														}
 													},
-                									commit : function( type, element )
-                        							{
-													    if ( type == IMAGE )
+													commit : function( type, element )
+													{
+														if ( type == IMAGE )
 														{
-														    element.removeClass('no-lightbox');
-														    if (this.getValue()==true) {
-														        element.addClass('no-lightbox');
-														    }
-													    }
-                        							}
-                					            },
-                					            {
-                					                id : 'chkOpenAsPopup',
-                									type : 'checkbox',
-                									label : _('Open as popup'),
-                									title : _('Use this option if source object is a file. The image of the file is displayed in the page the popup is the file detail view.'),
+															element.removeClass('no-lightbox');
+															if (this.getValue()==true) {
+																element.addClass('no-lightbox');
+															}
+														}
+													}
+												},
+												{
+													id : 'chkOpenAsPopup',
+													type : 'checkbox',
+													label : _('Open as popup'),
+													title : _('Use this option if source object is a file. The image of the file is displayed in the page the popup is the file detail view.'),
 													setup : function( type, element )
 													{
-													    if (element.hasClass('image-popup')) {
-													        this.setValue(true);
-													    } else {
-													        this.setValue(false);
-													    }
+														if (element.hasClass('image-popup')) {
+															this.setValue(true);
+														} else {
+															this.setValue(false);
+														}
 													},
-                									commit : function( type, element )
-                        							{
-													    if ( type == IMAGE )
+													commit : function( type, element )
+													{
+														if ( type == IMAGE )
 														{
-														    element.removeClass('image-popup');
-														    if (this.getValue()==true) {
-														        element.addClass('image-popup');
-														    }
-													    }
-                        							}
-                					            },
-                                                {
-                                                    type: 'select',
-                                                    id: 'cmbImageAdjustment',
-                                                    label: _('Image adjustment'),
-                                                    items: [[_('Please select'),''],[_('Image left'),'media-left'],[_('Image right'),'media-right'],[_('Image top'),'media-inline']],
-                                                    'default': '',
+															element.removeClass('image-popup');
+															if (this.getValue()==true) {
+																element.addClass('image-popup');
+															}
+														}
+													}
+												},
+												{
+													type: 'select',
+													id: 'cmbImageAdjustment',
+													label: _('Image adjustment'),
+													items: [[_('Please select'),''],[_('Image left'),'media-left'],[_('Image right'),'media-right'],[_('Image top'),'media-inline']],
+													'default': '',
 													setup : function( type, element )
 													{
 														if ( type == IMAGE )
 														{
-														    style_prefix_=['-left','-right','-inline'];
-														    styles_=['media-left','media-right','media-inline'];
-														    for (var i = 0; i <= styles_.length; i++) {
-														        if (jq(element).attr('class').indexOf(style_prefix_[i])!=-1) {
-														            this.setValue(styles_[i]);
-														        }
-														    }
+															style_prefix_=['-left','-right','-inline'];
+															styles_=['media-left','media-right','media-inline'];
+															for (var i = 0; i <= styles_.length; i++) {
+																if (jq(element).attr('class').indexOf(style_prefix_[i])!=-1) {
+																	this.setValue(styles_[i]);
+																}
+															}
 														}
 													},
-                                                    onChange: function() {
-                                                        var element = this.getDialog().preview;
-                         								style_prefix_=['-left','-right','-inline'];
-													    styles_=['media-left','media-right','media-inline'];
-													    for (var i = 0; i <= styles_.length; i++) {
-													        if (jq(element).attr('class')!=undefined) {
-    													        if (jq(element).attr('class').indexOf(style_prefix_[i])!=-1) {
-    													            element.removeClass(styles_[i]);
-    													        }
-													        }
-													    }
+													onChange: function() {
+														var element = this.getDialog().preview;
+														style_prefix_=['-left','-right','-inline'];
+														styles_=['media-left','media-right','media-inline'];
+														for (var i = 0; i <= styles_.length; i++) {
+															if (jq(element).attr('class')!=undefined) {
+																if (jq(element).attr('class').indexOf(style_prefix_[i])!=-1) {
+																	element.removeClass(styles_[i]);
+																}
+															}
+														}
 
-                    									if ( this.getValue() || this.isChanged() )
-                    									    element.addClass(this.getValue());
+														if ( this.getValue() || this.isChanged() )
+															element.addClass(this.getValue());
 
-                                                    },
-                                                    commit : function( type, element )
-                        							{
-                        							    if ( type == IMAGE )
-                        								{
-                            								style_prefix_=['-left','-right','-inline'];
-														    styles_=['media-left','media-right','media-inline'];
-    													    for (var i = 0; i <= styles_.length; i++) {
-    													        if (jq(element).attr('class')!=undefined) {
-        													        if (jq(element).attr('class').indexOf(style_prefix_[i])!=-1) {
-        													            element.removeClass(styles_[i]);
-        													        }
-    													        }
-    													    }
+													},
+													commit : function( type, element )
+													{
+														if ( type == IMAGE )
+														{
+															style_prefix_=['-left','-right','-inline'];
+															styles_=['media-left','media-right','media-inline'];
+															for (var i = 0; i <= styles_.length; i++) {
+																if (jq(element).attr('class')!=undefined) {
+																	if (jq(element).attr('class').indexOf(style_prefix_[i])!=-1) {
+																		element.removeClass(styles_[i]);
+																	}
+																}
+															}
 
-                        									if ( this.getValue() || this.isChanged() )
-                        									    element.addClass(this.getValue());
+															if ( this.getValue() || this.isChanged() )
+																element.addClass(this.getValue());
 
-                        								}
-                        								else if ( type == PREVIEW )
-                        								{
-                        									element.addClass(this.getValue());
-                        								}
-                        								else if ( type == CLEANUP )
-                        								{
-                        									element.removeClass(this.getValue());
-                        								}
-                        								if (jq(element).attr('class')!=undefined) {
-                        								    if (jq(element).attr('class').indexOf('position-')==-1) {
-                        								        element.addClass('position-7');
-                        								    }
-                        								}
-                        							}
-                        						}
-									        ]
-                                        },
+														}
+														else if ( type == PREVIEW )
+														{
+															element.addClass(this.getValue());
+														}
+														else if ( type == CLEANUP )
+														{
+															element.removeClass(this.getValue());
+														}
+														if (jq(element).attr('class')!=undefined) {
+															if (jq(element).attr('class').indexOf('position-')==-1) {
+																element.addClass('position-7');
+															}
+														}
+													}
+												}
+											]
+										},
 									]
 								},
 							]
