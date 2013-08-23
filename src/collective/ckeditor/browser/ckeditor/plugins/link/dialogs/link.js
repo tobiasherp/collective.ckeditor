@@ -626,7 +626,7 @@ CKEDITOR.dialog.add( 'link', function( editor )
 												'<tr>' +
 												  '<th scope="row"><label for="isrc-book-link-page">'+_('universal link')+'</label></th>' +
 												  '<td><input type="radio" name="_i-src"' +
-												            ' checked="checked"'
+												            ' checked="checked"' +
 												            ' id="isrc-book-link-page" value=""' +
 												            ' onclick="switchInternalSource(\'link\', \'\')">' +
 												  '</td>' +
