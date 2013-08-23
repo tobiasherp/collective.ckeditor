@@ -719,6 +719,9 @@ CKEDITOR.dialog.add( 'link', function( editor )
 
 												'<tr><td>&nbsp;</td></tr>' + // TODO: Ersetzen durch CSS-Lösung
 												'</table>',
+										setup: function(data) {
+											switchInternalSource('link', '');
+										}
 									}
 								]
 							}
