@@ -634,7 +634,7 @@ CKEDITOR.dialog.add( 'link', function( editor )
 												'<tr>' +
 												  '<th scope="row"><label for="isrc-book-link-image">'+_('image')+'</label></th>' +
 												  '<td><input type="radio" name="_i-src"' +
-												             'id="isrc-book-link-page" value="book-link-page"' +
+												             'id="isrc-book-link-image" value="book-link-image"' +
 												             'onclick="switchInternalSource(\'link\', \'image\')">' +
 												  '</td>' +
 												  '<td></td>' +
@@ -717,7 +717,7 @@ CKEDITOR.dialog.add( 'link', function( editor )
 												'</tr>' +
 
 												'<tr><td>&nbsp;</td></tr>' + // TODO: Ersetzen durch CSS-Lösung
-												'</table>',
+												'</table>'
 									}
 								]
 							}
