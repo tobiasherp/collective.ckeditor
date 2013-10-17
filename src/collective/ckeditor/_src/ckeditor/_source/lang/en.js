@@ -578,7 +578,7 @@ CKEDITOR.lang['en'] =
 		label		: 'Format',
 		panelTitle	: 'Paragraph Format',
 
-		tag_p		: 'Normal',
+		tag_p		: 'Paragraph',
 		tag_pre		: 'Formatted',
 		tag_address	: 'Address',
 		tag_h1		: 'Heading 1',
@@ -587,7 +587,7 @@ CKEDITOR.lang['en'] =
 		tag_h4		: 'Heading 4',
 		tag_h5		: 'Heading 5',
 		tag_h6		: 'Heading 6',
-		tag_div		: 'Normal (DIV)'
+		tag_div		: 'Unformatted'
 	},
 
 	div :
