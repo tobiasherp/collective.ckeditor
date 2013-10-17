@@ -98,8 +98,8 @@ CKEDITOR.lang['de'] =
 		preview			: 'Vorschau',
 		generalTab		: 'Allgemein',
 		advancedTab		: 'Erweitert',
-		validateNumberFailed : 'Dieser Wert ist keine Nummer.',
-		confirmNewPage	: 'Alle nicht gespeicherten Änderungen gehen verlohren. Sind Sie sicher die neue Seite zu laden?',
+		validateNumberFailed : 'Dieser Wert ist keine Zahl.',
+		confirmNewPage	: 'Alle nicht gespeicherten Änderungen gehen verloren. Wollen Sie die Seite trotzdem neu laden?',
 		confirmCancel	: 'Einige Optionen wurden geändert. Wollen Sie den Dialog dennoch schließen?',
 		options			: 'Optionen',
 		target			: 'Zielseite',
@@ -123,10 +123,10 @@ CKEDITOR.lang['de'] =
 		invalidValue	: 'Ungültiger Wert.',
 		invalidHeight	: 'Höhe muss eine Zahl sein.',
 		invalidWidth	: 'Breite muss eine Zahl sein.',
-		invalidCssLength	: 'Wert spezifiziert für "%1" Feld muss ein positiver numerischer Wert sein mit oder ohne korrekte CSS Messeinheit (px, %, in, cm, mm, em, ex, pt oder pc).',
-		invalidHtmlLength	: 'Wert spezifiziert für "%1" Feld muss ein positiver numerischer Wert sein mit oder ohne korrekte HTML Messeinheit (px oder %).',
-		invalidInlineStyle	: 'Wert spezifiziert für inline Stilart muss enthalten ein oder mehr Tupels mit dem Format "Name : Wert" getrennt mit Semikolons.',
-		cssLengthTooltip	: 'Gebe eine Zahl ein für ein Wert in pixels oder eine Zahl mit einer korrekten CSS Messeinheit (px, %, in, cm, mm, em, ex, pt oder pc).',
+		invalidCssLength	: 'Als Wert für das Feld "%1" wird ein positiver numerischer Wert erwartet, mit oder ohne korrekte CSS-Maßeinheit (px, %, in, cm, mm, em, ex, pt oder pc).',
+		invalidHtmlLength	: 'Als Wert für das Feld "%1" wird ein positiver numerischer Wert erwartet, mit oder ohne korrekte HTML-Maßeinheit (px oder %).',
+		invalidInlineStyle	: 'Als Wert für eine Inline-Stilart werden ein oder mehrere Tupel der Form "Name : Wert" erwartet, mit Semikolon getrennt.',
+		cssLengthTooltip	: 'Geben Sie eine Zahl ein (Wert in Pixeln), oder eine Zahl mit einer korrekten CSS-Maßeinheit (px, %, in, cm, mm, em, ex, pt oder pc).',
 
 		// Put the voice-only part of the label in the span.
 		unavailable		: '%1<span class="cke_accessibility">, nicht verfügbar</span>'
