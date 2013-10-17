@@ -89,7 +89,7 @@ CKEDITOR.lang['de'] =
 		langDirRtl		: 'Rechts nach Links (RTL)',
 		langCode		: 'Sprachenkürzel',
 		longDescr		: 'Langform URL',
-		cssClass		: 'Stylesheet Klasse',
+		cssClass		: 'Stylesheet-Klasse',
 		advisoryTitle	: 'Titel Beschreibung',
 		cssStyle		: 'Style',
 		ok				: 'OK',
@@ -110,7 +110,7 @@ CKEDITOR.lang['de'] =
 		langDirLTR		: 'Links nach Rechts (LNR)',
 		langDirRTL		: 'Rechts nach Links (RNL)',
 		styles			: 'Style',
-		cssClasses		: 'Stylesheet Klasse',
+		cssClasses		: 'Stylesheet-Klasse',
 		width			: 'Breite',
 		height			: 'Höhe',
 		align			: 'Ausrichtung',
@@ -134,7 +134,7 @@ CKEDITOR.lang['de'] =
 
 	contextmenu :
 	{
-		options : 'Kontextmenü Optionen'
+		options : 'Kontextmenü-Optionen'
 	},
 
 	// Special char dialog.
@@ -142,7 +142,7 @@ CKEDITOR.lang['de'] =
 	{
 		toolbar		: 'Sonderzeichen einfügen/editieren',
 		title		: 'Sonderzeichen auswählen',
-		options : 'Sonderzeichen Optionen'
+		options : 'Sonderzeichen-Optionen'
 	},
 
 	// Link dialog.
@@ -185,7 +185,7 @@ CKEDITOR.lang['de'] =
 		tabIndex			: 'Tab-Index',
 		advisoryTitle		: 'Titel Beschreibung',
 		advisoryContentType	: 'Inhaltstyp',
-		cssClasses		: 'Stylesheet Klasse',
+		cssClasses		: 'Stylesheet-Klasse',
 		charset			: 'Ziel-Zeichensatz',
 		styles			: 'Style',
 		rel			: 'Beziehung',
@@ -428,7 +428,7 @@ CKEDITOR.lang['de'] =
 		alertUrl	: 'Bitte geben Sie die Bild-URL an',
 		linkTab		: 'Link',
 		button2Img	: 'Möchten Sie den gewählten Bild-Button in ein einfaches Bild umwandeln?',
-		img2Button	: 'Möchten Sie das gewählten Bild in einen Bild-Button umwandeln?',
+		img2Button	: 'Möchten Sie das gewählte Bild in einen Bild-Button umwandeln?',
 		urlMissing	: 'Imagequelle URL fehlt.',
 		validateBorder	: 'Rahmen muß eine ganze Zahl sein.',
 		validateHSpace	: 'Horizontal-Abstand muß eine ganze Zahl sein.',
@@ -504,7 +504,7 @@ CKEDITOR.lang['de'] =
 	{
 		toolbar	: 'Smiley',
 		title	: 'Smiley auswählen',
-		options : 'Smiley Optionen'
+		options : 'Smiley-Optionen'
 	},
 
 	elementsPath :
@@ -556,7 +556,7 @@ CKEDITOR.lang['de'] =
 	{
 		button			: 'Vorlagen',
 		title			: 'Vorlagen',
-		options : 'Vorlagen Optionen',
+		options : 'Vorlagen-Optionen',
 		insertOption	: 'Aktuellen Inhalt ersetzen',
 		selectPromptMsg	: 'Klicken Sie auf eine Vorlage, um sie im Editor zu öffnen (der aktuelle Inhalt wird dabei gelöscht!):',
 		emptyListMsg	: '(keine Vorlagen definiert)'
@@ -568,9 +568,9 @@ CKEDITOR.lang['de'] =
 	{
 		label		: 'Stil',
 		panelTitle	: 'Formatierungenstil',
-		panelTitle1	: 'Block Stilart',
-		panelTitle2	: 'Inline Stilart',
-		panelTitle3	: 'Objekt Stilart'
+		panelTitle1	: 'Block-Stilart',
+		panelTitle2	: 'Inline-Stilart',
+		panelTitle3	: 'Objekt-Stilart'
 	},
 
 	format :
@@ -578,31 +578,31 @@ CKEDITOR.lang['de'] =
 		label		: 'Format',
 		panelTitle	: 'Format',
 
-		tag_p		: 'Normal',
+		tag_p		: 'Standardabsatz',
 		tag_pre		: 'Formatiert',
-		tag_address	: 'Addresse',
+		tag_address	: 'Adresse',
 		tag_h1		: 'Überschrift 1',
 		tag_h2		: 'Überschrift 2',
 		tag_h3		: 'Überschrift 3',
 		tag_h4		: 'Überschrift 4',
 		tag_h5		: 'Überschrift 5',
 		tag_h6		: 'Überschrift 6',
-		tag_div		: 'Normal (DIV)'
+		tag_div		: 'unformatiert'
 	},
 
 	div :
 	{
-		title				: 'Div Container erzeugen',
-		toolbar				: 'Div Container erzeugen',
-		cssClassInputLabel	: 'Stylesheet Klasse',
+		title				: 'Div-Container erzeugen',
+		toolbar				: 'Div-Container erzeugen',
+		cssClassInputLabel	: 'Stylesheet-Klasse',
 		styleSelectLabel	: 'Style',
 		IdInputLabel		: 'Id',
 		languageCodeInputLabel	: 'Sprachenkürzel',
-		inlineStyleInputLabel	: 'Inline Stil',
+		inlineStyleInputLabel	: 'Inline-Stil',
 		advisoryTitleInputLabel	: 'Tooltip',
-		langDirLabel		: 'Sprache Richtung',
-		langDirLTRLabel		: 'Links nach Rechs (LTR)',
-		langDirRTLLabel		: 'Rechs nach Links (RTL)',
+		langDirLabel		: 'Schreibrichtung',
+		langDirLTRLabel		: 'Links nach Rechts (LTR)',
+		langDirRTLLabel		: 'Rechts nach Links (RTL)',
 		edit				: 'Div bearbeiten',
 		remove				: 'Div entfernen'
   	},
@@ -700,9 +700,9 @@ CKEDITOR.lang['de'] =
 		emptyDic		: 'Wörterbuchname sollte leer sein.',
 		noSuggestions	: 'keine Vorschläge',
 		optionsTab		: 'Optionen',
-		allCaps			: 'Groß geschriebenen Wörter ignorieren',
+		allCaps			: 'Groß geschriebene Wörter ignorieren',
 		ignoreDomainNames : 'Domain-Namen ignorieren',
-		mixedCase		: 'Wörter mit gemischte Setzkasten ignorieren',
+		mixedCase		: 'Wörter mit Binnenmajuskeln (CamelCase) ignorieren',
 		mixedWithDigits	: 'Wörter mit Zahlen ignorieren',
 
 		languagesTab	: 'Sprachen',

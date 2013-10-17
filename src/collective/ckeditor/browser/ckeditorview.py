@@ -290,6 +290,11 @@ class CKeditorView(BrowserView):
         customTemplates = cke_properties.getProperty('customTemplates')
         if customTemplates:
             params_js_string += self.getCustomTemplatesConfig(customTemplates)
+        params_js_string += ("config.format_tags = ["
+                             "'p','div',"
+                             "'pre','address',"
+                             "'h2','h3','h4','h5','h6'"
+                             "];")
         params_js_string += """
 };
         """
