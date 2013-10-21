@@ -1,2 +1,12 @@
-*.py text
+# Als erste Anweisung; spätere Zeilen können übersteuern:
+* text=auto
+# Nun die Feinsteuerung:
+*.fla binary
+*.gif binary
+*.jpeg binary
+*.jpg binary
 *.js text
+*.mo binary
+*.png binary
+*.py text
+*.swf binary
