@@ -26,18 +26,13 @@ CKEDITOR.dialog.add( 'link', function( editor )
 
 		switch ( value )
  		{
-			case 'frame' :
-				targetName.setLabel( editor.lang.link.targetFrameName );
-				targetName.getElement().show();
-				break;
 			case 'popup' :
 				popupFeatures.show();
 				targetName.setLabel( editor.lang.link.targetPopupName );
 				targetName.getElement().show();
 				break;
 			default :
-				targetName.setValue( value );
-				targetName.getElement().hide();
+				popupFeatures.hide();
 				break;
  		}
 

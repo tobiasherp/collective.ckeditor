@@ -26,18 +26,13 @@ CKEDITOR.dialog.add( 'link', function( editor )
 
 		switch ( value )
  		{
-			case 'frame' :
-				targetName.setLabel( editor.lang.link.targetFrameName );
-				targetName.getElement().show();
-				break;
 			case 'popup' :
 				popupFeatures.show();
 				targetName.setLabel( editor.lang.link.targetPopupName );
 				targetName.getElement().show();
 				break;
 			default :
-				targetName.setValue( value );
-				targetName.getElement().hide();
+				popupFeatures.hide();
 				break;
  		}
 
@@ -626,8 +621,8 @@ CKEDITOR.dialog.add( 'link', function( editor )
 												'<tr>' +
 												  '<th scope="row"><label for="isrc-book-link-universal">'+_('universal link')+'</label></th>' +
 												  '<td><input type="radio" name="_i-src"' +
+													    ' checked="checked"'
 												            ' id="isrc-book-link-universal" value=""' +
-															' checked="checked"'
 												            ' onclick="switchInternalSource(\'link\', \'\')">' +
 												  '</td>' +
 												  '<td></td>' +
@@ -718,7 +713,10 @@ CKEDITOR.dialog.add( 'link', function( editor )
 												'</tr>' +
 
 												'<tr><td>&nbsp;</td></tr>' + // TODO: Ersetzen durch CSS-Lösung
-												'</table>'
+												'</table>',
+										setup: function(data) {
+											switchInternalSource('link', '');
+										}
 									}
 								]
 							}
