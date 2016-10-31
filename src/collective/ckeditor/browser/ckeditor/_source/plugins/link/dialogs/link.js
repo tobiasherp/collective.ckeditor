@@ -626,79 +626,80 @@ CKEDITOR.dialog.add( 'link', function( editor )
 												'<tr>' +
 												  '<th scope="row"><label for="isrc-book-link-page">'+_('page')+'</label></th>' +
 												  '<td><input type="radio" name="_i-src"' +
-												             'id="isrc-book-link-page" value=""' +
-												             'onclick="switchInternalSource(\'link\', \'\')">' +
+												            ' checked="checked"' +
+												            ' id="isrc-book-link-page" value=""' +
+												            ' onclick="switchInternalSource(\'link\', \'\')">' +
 												  '</td>' +
 												  '<td></td>' +
 												'</tr>' +
 												'<tr>' +
 												  '<th scope="row"><label for="isrc-book-link-image">'+_('image')+'</label></th>' +
 												  '<td><input type="radio" name="_i-src"' +
-												             'id="isrc-book-link-image" value="book-link-image"' +
-												             'onclick="switchInternalSource(\'link\', \'image\')">' +
+												            ' id="isrc-book-link-image" value="book-link-image"' +
+												            ' onclick="switchInternalSource(\'link\', \'image\')">' +
 												  '</td>' +
 												  '<td></td>' +
 												'</tr>' +
 												'<tr>' +
 												  '<th scope="row"><label for="isrc-book-link-table">'+_('UnitraccTable')+'</label></th>' +
 												  '<td><input type="radio" name="_i-src"' +
-												             'id="isrc-book-link-table" value="book-link-table"' +
-												             'onclick="switchInternalSource(\'link\', \'table\')">' +
+												            ' id="isrc-book-link-table" value="book-link-table"' +
+												            ' onclick="switchInternalSource(\'link\', \'table\')">' +
 												  '</td>' +
 												  '<td><input type="radio" name="_i-src"' +
-												             'id="isrc-unitracc-table" value="unitracc-table"' +
-												             'onclick="switchInternalSource(\'imbed\', \'table\')">' +
+												            ' id="isrc-unitracc-table" value="unitracc-table"' +
+												            ' onclick="switchInternalSource(\'imbed\', \'table\')">' +
 												  '</td>' +
 												'</tr>' +
 												'<tr>' +
 												  '<th scope="row"><label for="isrc-book-link-formula">'+_('UnitraccFormula')+'</label></th>' +
 												  '<td><input type="radio" name="_i-src"' +
-												             'id="isrc-book-link-formula" value="book-link-formula"' +
-												             'onclick="switchInternalSource(\'link\', \'formula\')">' +
+												            ' id="isrc-book-link-formula" value="book-link-formula"' +
+												            ' onclick="switchInternalSource(\'link\', \'formula\')">' +
 												  '</td>' +
 												  '<td><input type="radio" name="_i-src"' +
-												             'id="isrc-unitracc-formula" value="unitracc-formula"' +
-												             'onclick="switchInternalSource(\'imbed\', \'formula\')">' +
+												            ' id="isrc-unitracc-formula" value="unitracc-formula"' +
+												            ' onclick="switchInternalSource(\'imbed\', \'formula\')">' +
 												  '</td>' +
 												'</tr>' +
 												'<tr>' +
 												  '<th scope="row"><label for="isrc-book-link-video">'+_('UnitraccVideo')+'</label></th>' +
 												  '<td><input type="radio" name="_i-src"' +
-												             'id="isrc-book-link-video" value="book-link-video"' +
-												             'onclick="switchInternalSource(\'link\', \'video\')">' +
+												            ' id="isrc-book-link-video" value="book-link-video"' +
+												            ' onclick="switchInternalSource(\'link\', \'video\')">' +
 												  '</td>' +
 												  '<td><input type="radio" name="_i-src"' +
-												             'id="isrc-unitracc-video" value="unitracc-video"' +
-												             'onclick="switchInternalSource(\'imbed\', \'video\')">' +
+												            ' id="isrc-unitracc-video" value="unitracc-video"' +
+												            ' onclick="switchInternalSource(\'imbed\', \'video\')">' +
 												  '</td>' +
 												'</tr>' +
 												'<tr>' +
 												  '<th scope="row"><label for="isrc-book-link-audio">'+_('UnitraccAudio')+'</label></th>' +
 												  '<td><input type="radio" name="_i-src"' +
-												             'id="isrc-book-link-audio" value="book-link-audio"' +
-												             'onclick="switchInternalSource(\'link\', \'audio\')">' +
+												            ' id="isrc-book-link-audio" value="book-link-audio"' +
+												            ' onclick="switchInternalSource(\'link\', \'audio\')">' +
 												  '</td>' +
 												  '<td><input type="radio" name="_i-src"' +
-												             'id="isrc-unitracc-audio" value="unitracc-audio"' +
-												             'onclick="switchInternalSource(\'imbed\', \'audio\')">' +
+												            ' id="isrc-unitracc-audio" value="unitracc-audio"' +
+												            ' onclick="switchInternalSource(\'imbed\', \'audio\')">' +
 												  '</td>' +
 												'</tr>' +
 												'<tr>' +
 												  '<th scope="row"><label for="isrc-book-link-animation">'+_('UnitraccAnimation')+'</label></th>' +
 												  '<td><input type="radio" name="_i-src"' +
-												             'id="isrc-book-link-animation" value="book-link-animation"' +
-												             'onclick="switchInternalSource(\'link\', \'animation\')">' +
+												            ' id="isrc-book-link-animation" value="book-link-animation"' +
+												            ' onclick="switchInternalSource(\'link\', \'animation\')">' +
 												  '</td>' +
 												  '<td><input type="radio" name="_i-src"' +
-												             'id="isrc-unitracc-animation" value="unitracc-animation"' +
-												             'onclick="switchInternalSource(\'imbed\', \'animation\')">' +
+												            ' id="isrc-unitracc-animation" value="unitracc-animation"' +
+												            ' onclick="switchInternalSource(\'imbed\', \'animation\')">' +
 												  '</td>' +
 												'</tr>' +
 												'<tr>' +
 												  '<th scope="row"><label for="isrc-book-link-literature">'+_('UnitraccLiterature')+'</label></th>' +
 												  '<td><input type="radio" name="_i-src"' +
-												             'id="isrc-book-link-literature" value="book-link-literature"' +
-												             'onclick="switchInternalSource(\'link\', \'literature\')">' +
+												            ' id="isrc-book-link-literature" value="book-link-literature"' +
+												            ' onclick="switchInternalSource(\'link\', \'literature\')">' +
 												  '</td>' +
 												  '<td></td>' +
 												'</tr>' +
@@ -967,12 +968,7 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								'items' :
 								[
 									[ commonLang.notSet, 'notSet' ],
-									[ linkLang.targetFrame, 'frame' ],
 									[ linkLang.targetPopup, 'popup' ],
-									[ commonLang.targetNew, '_blank' ],
-									[ commonLang.targetTop, '_top' ],
-									[ commonLang.targetSelf, '_self' ],
-									[ commonLang.targetParent, '_parent' ]
 								],
 								onChange : targetChanged,
 								setup : function( data )
@@ -991,26 +987,6 @@ CKEDITOR.dialog.add( 'link', function( editor )
 									data.target.type = this.getValue();
 								}
 							},
-							{
-								type : 'text',
-								id : 'linkTargetName',
-								label : linkLang.targetFrameName,
-								'default' : '',
-								setup : function( data )
-								{
-									if ( data.target ) {
-										this.setValue( data.target.name );
-									}
-								},
-								commit : function( data )
-								{
-									if ( !data.target ) {
-										data.target = {};
-									}
-
-									data.target.name = this.getValue().replace(/\W/gi, '');
-								}
-							}
 						]
 					},
 					{

@@ -968,12 +968,7 @@ CKEDITOR.dialog.add( 'link', function( editor )
 								'items' :
 								[
 									[ commonLang.notSet, 'notSet' ],
-									[ linkLang.targetFrame, 'frame' ],
 									[ linkLang.targetPopup, 'popup' ],
-									[ commonLang.targetNew, '_blank' ],
-									[ commonLang.targetTop, '_top' ],
-									[ commonLang.targetSelf, '_self' ],
-									[ commonLang.targetParent, '_parent' ]
 								],
 								onChange : targetChanged,
 								setup : function( data )
@@ -992,26 +987,6 @@ CKEDITOR.dialog.add( 'link', function( editor )
 									data.target.type = this.getValue();
 								}
 							},
-							{
-								type : 'text',
-								id : 'linkTargetName',
-								label : linkLang.targetFrameName,
-								'default' : '',
-								setup : function( data )
-								{
-									if ( data.target ) {
-										this.setValue( data.target.name );
-									}
-								},
-								commit : function( data )
-								{
-									if ( !data.target ) {
-										data.target = {};
-									}
-
-									data.target.name = this.getValue().replace(/\W/gi, '');
-								}
-							}
 						]
 					},
 					{
