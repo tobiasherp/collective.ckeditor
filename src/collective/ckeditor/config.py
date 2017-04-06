@@ -9,19 +9,16 @@ I18NDOMAIN = 'collective.ckeditor'
 
 # the default toolbar used by CKEditor
 CKEDITOR_PLONE_DEFAULT_TOOLBAR = """[
-    ['Source','-','AjaxSave','Preview','-','Templates'],
-    ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Print',
-    'SpellChecker', 'Scayt'],
-    ['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
-    ['Styles','Format','Font','FontSize'],
-    '/',
-    ['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
-    ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
+    ['Source','-','Templates'],
+    ['PasteText','PasteFromWord','SpellChecker'],
+    ['Undo'],
+    ['Bold','Italic','Underline','Strike'],
+    ['NumberedList','BulletedList','-','Outdent','Indent'],
     ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
     ['Link','Unlink','Anchor'],
-    ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar',
-    'PageBreak'],
-    ['Maximize', 'ShowBlocks','-','About']
+    ['Image','Table','HorizontalRule','SpecialChar','Maximize'],
+    '/',
+    ['Style','Format','TextColor','Subscript','Superscript'],
 ]"""
 
 # quintagroup.com (from qPloneResolveUID product)
