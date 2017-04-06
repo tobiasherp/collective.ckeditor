@@ -2,7 +2,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = '3.6.12.dev0'
+version = '3.6.13.dev0'
 
 setup(name='collective.ckeditor',
       version=version,
@@ -27,7 +27,7 @@ setup(name='collective.ckeditor',
       keywords='Plone CKeditor WYSIWYG',
       author='Alterway Solutions',
       author_email='toutpt@gmail.com',
-      url='https://github.com/collective/collective.ckeditor',
+      url='https://github.com/tobiasherp/collective.ckeditor',
       license='GPL',
       namespace_packages=['collective'],
       include_package_data=True,

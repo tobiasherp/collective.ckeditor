@@ -1,6 +1,12 @@
 Changelog
 =========
 
+3.6.13 (unreleased)
+-------------------
+
+- Adjustments for the UNITRACC platform
+
+
 3.6.12 (unreleased)
 -------------------
 
