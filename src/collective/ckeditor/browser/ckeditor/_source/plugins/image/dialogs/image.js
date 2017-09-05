@@ -935,11 +935,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                         								{
                         									element.removeClass(this.getValue());
                         								}
-                        								if (jq(element).attr('class')!=undefined) {
-                        								    if (jq(element).attr('class').indexOf('position-')==-1) {
-                        								        element.addClass('position-7');
-                        								    }
-                        								}
                         							}
                                                 }
 									        ]
